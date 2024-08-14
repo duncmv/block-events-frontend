@@ -1,0 +1,29 @@
+import Image from "next/image";
+import Link from "next/link";
+import Header from "./components/Header";
+
+export default function Home() {
+  return (
+    <main>
+      <div className="hero bg-white min-h-screen">
+        <div className="hero-content flex-col lg:flex-row-reverse">
+          <img src="/landing.JPG" className="max-w-lg rounded-lg shadow-2xl" />
+          <div>
+            <h1 className="text-5xl font-bold">
+              Discover, Manage, and Enjoy Events
+            </h1>
+            <p className="py-6">
+              Experience effortless event management with Block Events, where
+              organizers easily create and manage events and attendees discover
+              and register for exciting gatherings, all through our intuitive
+              platform
+            </p>
+            <Link href="/SignUp">
+              <button className="btn btn-primary">Get Started</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
