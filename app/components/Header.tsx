@@ -15,16 +15,16 @@ export default function Header() {
           Events
         </Link>
         <Link
-          href="/Login"
+          href="/Dashboard"
           className="px-4 py-2 hover:text-red-900 font-medium"
         >
-          Login
+          Dashboard
         </Link>
         <Link
-          href="/Signup"
+          href="/Services"
           className="px-4 py-2 hover:text-red-900 font-medium"
         >
-          Sign Up
+          Services
         </Link>
         <Link
           href="/About"

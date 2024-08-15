@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
+import events from "./Events/events";
+import EventCard from "./components/EventCard";
 
 export default function Home() {
   return (
-    <main>
+    <div>
       <div className="hero bg-white min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <img src="/landing.JPG" className="max-w-lg rounded-lg shadow-2xl" />
@@ -24,6 +26,14 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </main>
+
+      <div className="carousel carousel-end rounded-box">
+        <div className="carousel-item m-3 px-4">
+          {events.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
