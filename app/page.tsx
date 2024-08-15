@@ -20,7 +20,7 @@ export default function Home() {
               and register for exciting gatherings, all through our intuitive
               platform
             </p>
-            <Link href="/SignUp">
+            <Link href="/Login">
               <button className="btn btn-primary">Get Started</button>
             </Link>
           </div>

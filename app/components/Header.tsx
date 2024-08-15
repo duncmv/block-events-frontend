@@ -32,6 +32,12 @@ export default function Header() {
         >
           About Us
         </Link>
+        <Link
+          href="/Login"
+          className="px-4 py-2 hover:text-red-900 font-medium"
+        >
+          Sign In
+        </Link>
       </nav>
     </header>
   );
