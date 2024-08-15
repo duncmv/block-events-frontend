@@ -1,17 +1,11 @@
+// pages/login.tsx
 "use client";
 import { useState } from "react";
 import SignUpForm from "../components/SignUpForm";
 import SignInForm from "../components/SignInForm";
-import Link from "next/link";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
-  const [formData, setFormData] = useState({
-    userName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  })
 
   return (
     <div className="bg-gray-100 font-sans leading-normal tracking-normal h-screen flex items-center justify-center">
@@ -32,10 +26,10 @@ const Login = () => {
           </button>
         </div>
         <div className="transition-all duration-500">
-          {isSignIn ? <SignInForm setFormData={setFormData} formData={formData} /> : <SignUpForm setFormData={setFormData} formData={formData} />}
+          {isSignIn ? <SignInForm /> : <SignUpForm />}
         </div>
         <p className="mt-4 text-center text-gray-700">
-          Already have an account?{' '}
+          {isSignIn ? "Don't have an account?" : "Already have an account?"}{' '}
           <button
             onClick={() => setIsSignIn(!isSignIn)}
             className="btn btn-primary text-white px-2 py-1 rounded"
