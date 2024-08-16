@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+
 interface FormDataProps {
   userName: string;
   email: string;
   password: string;
   passwordConfirm: string;
 }
+
 interface ErrorsProps {
-  userName?: string;
-  email?: string;
-  password?: string;
-  passwordConfirm?: string;
-  serverError?: string;
-}
+	[key: string]: string | undefined;
+	userName?: string;
+	email?: string;
+	password?: string;
+	passwordConfirm?: string;
+	serverError?: string;
+  }
+  
+
 const SignUpForm: React.FC = () => {
   const [formData, setFormData] = useState<FormDataProps>({
     userName: '',
@@ -20,43 +25,22 @@ const SignUpForm: React.FC = () => {
     password: '',
     passwordConfirm: '',
   });
+
   const [errors, setErrors] = useState<ErrorsProps | null>(null);
   const router = useRouter();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
-  const validateEmail = (email: string): boolean => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
-  const validate = (): ErrorsProps | null => {
-    const newErrors: ErrorsProps = {};
-    if (formData.userName && (formData.userName.length < 3 || formData.userName.length > 15)) {
-      newErrors.userName = 'Username must be between 3 and 15 characters';
-    }
-    if (!formData.email || !validateEmail(formData.email)) {
-      newErrors.email = 'Email is not valid';
-    }
-    if (!formData.password || formData.password.length < 8 || formData.password.length > 25) {
-      newErrors.password = 'Password must be between 6 and 25 characters';
-    }
-    if (formData.password !== formData.passwordConfirm) {
-      newErrors.passwordConfirm = 'Passwords do not match';
-    }
-    return Object.keys(newErrors).length > 0 ? newErrors : null;
-  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(null);
-    const validationErrors = validate();
-    if (validationErrors) {
-      setErrors(validationErrors);
-      return;
-    }
+
     try {
       const response = await fetch(`http://localhost:3300/api/auth/register`, {
         method: 'POST',
@@ -66,26 +50,31 @@ const SignUpForm: React.FC = () => {
         credentials: 'include',
         body: JSON.stringify(formData),
       });
+
       const data = await response.json();
+
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        // router.push('/dashboard'); // Redirect to dashboard or home page
-        // console.log(data);
+        router.push('/dashboard'); // Redirect to dashboard or home page
       } else {
-        setErrors(prevErrors => ({
-          ...prevErrors,
-          serverError: data.message || 'Registration failed',
-        }));
+        // Process errors returned from the backend
+        const backendErrors: ErrorsProps = {};
+        data.errors.forEach((error: { field: string; message: string }) => {
+          backendErrors[error.field] = error.message;
+        });
+
+        setErrors(backendErrors);
       }
     } catch (err) {
-      setErrors(prevErrors => ({
+      setErrors((prevErrors) => ({
         ...prevErrors,
         serverError: 'An error occurred. Please try again.',
       }));
     }
   };
+
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
+    <form onSubmit={handleSubmit} className="mb-4" noValidate>
       <div className="mb-4">
         <label htmlFor="userName" className="block text-gray-700 mb-2">Username</label>
         <input
@@ -148,4 +137,5 @@ const SignUpForm: React.FC = () => {
     </form>
   );
 };
+
 export default SignUpForm;
