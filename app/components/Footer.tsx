@@ -8,7 +8,7 @@ const Footer = () => {
         <aside className="flex items-center mb-4 md:mb-0">
           <Image
             key="logo2"
-            src="/icon2.ico"
+            src="/icon.png"
             alt="logo"
             width={50}
             height={50}

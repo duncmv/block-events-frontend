@@ -29,7 +29,9 @@ export default function Home() {
               platform.
             </p>
             <Link href="/Login">
-              <button className="btn btn-primary">Get Started</button>
+              <button className="btn btn-primary font-sans text-white">
+                Get Started
+              </button>
             </Link>
           </div>
         </div>
