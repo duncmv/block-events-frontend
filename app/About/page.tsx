@@ -26,7 +26,7 @@ export const authors: Author[] = [
     role: "Full-Stack Developer",
     image: "/chaith.jpg",
     description:
-      "Chaith ensured that the app is both visually appealing and user-friendly with invaluable input",
+      "Chaith ensured that the app is both visually appealing and user-friendly with invaluable input on both backend and frontend sections of the stack.",
   },
 ];
 
