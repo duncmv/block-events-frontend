@@ -54,8 +54,8 @@ const Dashboard: React.FC<DashboardProps> = async ({ searchParams }) => {
         <div className="border border-gray-300 rounded-lg p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {displayedEvents && displayedEvents.length > 0 ? (
-              displayedEvents.map((event: Event) => (
-                <EventCard key={event._id} event={event} />
+              displayedEvents.map((event: Event, key: number) => (
+                <EventCard key={key} event={event} />
               ))
             ) : (
               <p>No events yet</p>
