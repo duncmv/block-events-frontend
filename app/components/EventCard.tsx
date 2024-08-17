@@ -3,39 +3,49 @@ import React from "react";
 interface Event {
   id: number;
   title: string;
-  startDateTime: Date;
-  endDateTime?: Date;
+  description: string;
+  startDateTime: string;
+  endDateTime?: string;
   location: {
     address: string;
     city: string;
     state: string;
     zip_code?: string;
     googleMapsLink?: string;
+  media: {
+    pictures: string[];
+    videos: string[];
+  }
   };
   category: string;
 }
-
 interface EventCardProps {
   event: Event;
 }
 
 const EventCard = ({ event }: EventCardProps) => {
+  const pics = (event as any).media.pictures.map((pic: string, key: number) => (
+    <img key={key} className="w-full" src="https://picsum.photos/seed/picsum/500/300" alt="Event image" />
+  ));
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
       <figure>
-        <img src="https://random.imagecdn.app/500/150" alt="" />
+        {pics}
       </figure>
-      <div className="card-body">
-        <h2 className="card-title">
+      <div className="px-6 py-4">
+        <div className="font-bold text-xl mb-2 flex items-center justify-between">
           {event.title}
-          <div className="badge badge-secondary">HOT</div>
-        </h2>
-        <p>{event.startDateTime.toLocaleDateString()}</p>
-        <div className="card-actions justify-end">
-          <div className="badge badge-outline">{event.category}</div>
+          <span className="badge badge-secondary text-sm">HOT</span>
+        </div>
+        <p className="text-gray-700 text-base mb-4">
+          {new Date(event.startDateTime).toLocaleString()} {/* Converts the date to a readable format */}
+        </p>
+        <div className="flex justify-end">
+          <span className="badge badge-outline text-sm">{event.category}</span>
         </div>
       </div>
     </div>
+
   );
 };
 

@@ -69,7 +69,7 @@ const SignUpForm: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        // router.push('/dashboard'); // Redirect to dashboard or home page
+        window.location.href = '/Dashboard'; // Redirect to dashboard or home page
         // console.log(data);
       } else {
         setErrors(prevErrors => ({
