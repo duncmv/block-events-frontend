@@ -1,42 +1,50 @@
 "use client";
+import { useState, useEffect } from "react";
 import SearchAndFilter from "../components/SearchAndFilter";
-import { useState } from "react";
-import events from "./events";
+import { fetchEvents } from "../utils/api";
 import EventCard from "../components/EventCard";
-interface Event {
-  id: number;
-  title: string;
-  startDateTime: Date;
-  endDateTime?: Date;
-  location: {
-    address: string;
-    city: string;
-    state: string;
-    zip_code?: string;
-    googleMapsLink?: string;
-  };
-  category: string;
-}
-
-const filteredEvents: Event[] = [];
+import Link from "next/link";
 
 const Events = () => {
-  const [filteredEvents, setFilteredEvents] = useState(events);
+  const [allEvents, setAllEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getEvents = async () => {
+      try {
+        const res = await fetchEvents();
+        setAllEvents(res.events);
+        setFilteredEvents(res.events);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getEvents();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div className="flex justify-between max-h-70">
         <div className="flex">
           <SearchAndFilter
-            events={events}
+            events={allEvents}
             setFilteredEvents={setFilteredEvents}
           />
         </div>
-        <button className="btn btn-primary p-2 m-4">Create Event</button>
+          <Link href={localStorage.getItem('token') ? "/Events/Create" : "/Login"} className="btn btn-primary p-2 m-4">Create Event</Link >
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredEvents.map((event) => (
-          <EventCard key={event.id} event={event} />
+        {filteredEvents.map((event: any, key: number) => (
+          <EventCard key={key} event={event} />
         ))}
       </div>
     </div>

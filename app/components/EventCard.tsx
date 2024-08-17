@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Event {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   startDateTime: string;
@@ -12,10 +12,10 @@ interface Event {
     state: string;
     zip_code?: string;
     googleMapsLink?: string;
+  };
   media: {
     pictures: string[];
     videos: string[];
-  }
   };
   category: string;
 }
@@ -24,7 +24,7 @@ interface EventCardProps {
 }
 
 const EventCard = ({ event }: EventCardProps) => {
-  const pics = (event as any).media.pictures.map((pic: string, key: number) => (
+  const pics = (event as any).media?.pictures.map((pic: string, key: number) => (
     <img key={key} className="w-full" src="https://picsum.photos/seed/picsum/500/300" alt="Event image" />
   ));
   return (

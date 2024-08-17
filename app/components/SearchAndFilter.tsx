@@ -10,16 +10,21 @@ const categories = [
 ];
 
 interface Event {
-  id: number;
+  _id: number;
   title: string;
-  startDateTime: Date;
-  endDateTime?: Date;
+  description: string;
+  startDateTime: string;
+  endDateTime?: string;
   location: {
     address: string;
     city: string;
     state: string;
     zip_code?: string;
     googleMapsLink?: string;
+  media: {
+    pictures: string[];
+    videos: string[];
+  }
   };
   category: string;
 }
@@ -39,7 +44,7 @@ const SearchAndFilter = ({
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       handleSearch();
-    }, 1000); // Adjust the debounce delay as needed
+    }, 300); // Adjust the debounce delay as needed
 
     return () => clearTimeout(timeoutId);
   }, [searchTerm, selectedCategory]);
@@ -49,7 +54,7 @@ const SearchAndFilter = ({
 
     if (searchTerm) {
       filtered = filtered.filter((event) =>
-        event.title.toLowerCase().includes(searchTerm.toLowerCase())
+        event.title.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
     }
 
@@ -57,6 +62,10 @@ const SearchAndFilter = ({
       filtered = filtered.filter(
         (event) => event.category === selectedCategory
       );
+    }
+
+    if (searchTerm === "" && selectedCategory === "All Categories") {
+      filtered = events;
     }
 
     setFilteredEvents(filtered);

@@ -2,8 +2,8 @@ const events = [
   {
     id: 1,
     title: "Jazz Night in the City",
-    startDateTime: new Date("2024-09-10T19:00:00"),
-    endDateTime: new Date("2024-09-10T22:00:00"),
+    startDateTime: "2024-09-10T19:00:00.000Z",
+    endDateTime: "2024-09-10T22:00:00",
     location: {
       address: "123 Main St",
       city: "New York",
@@ -16,8 +16,8 @@ const events = [
   {
     id: 2,
     title: "Art Exhibition: Modern Wonders",
-    startDateTime: new Date("2024-09-12T10:00:00"),
-    endDateTime: new Date("2024-09-12T16:00:00"),
+    startDateTime: "2024-09-12T10:00:00",
+    endDateTime: "2024-09-12T16:00:00",
     location: {
       address: "456 Art Ave",
       city: "San Francisco",
@@ -30,8 +30,8 @@ const events = [
   {
     id: 3,
     title: "Gourmet Food Fest",
-    startDateTime: new Date("2024-09-15T12:00:00"),
-    endDateTime: new Date("2024-09-15T20:00:00"),
+    startDateTime: "2024-09-15T12:00:00",
+    endDateTime: "2024-09-15T20:00:00",
     location: {
       address: "789 Culinary Blvd",
       city: "Chicago",
@@ -44,8 +44,8 @@ const events = [
   {
     id: 4,
     title: "Rock Concert: Electric Vibes",
-    startDateTime: new Date("2024-09-18T18:00:00"),
-    endDateTime: new Date("2024-09-18T23:00:00"),
+    startDateTime: "2024-09-18T18:00:00",
+    endDateTime: "2024-09-18T23:00:00",
     location: {
       address: "321 Rock Rd",
       city: "Los Angeles",
@@ -58,8 +58,8 @@ const events = [
   {
     id: 5,
     title: "Marathon for Charity",
-    startDateTime: new Date("2024-09-20T06:00:00"),
-    endDateTime: new Date("2024-09-20T14:00:00"),
+    startDateTime: "2024-09-20T06:00:00",
+    endDateTime: "2024-09-20T14:00:00",
     location: {
       address: "500 Fitness St",
       city: "Boston",
@@ -72,8 +72,8 @@ const events = [
   {
     id: 6,
     title: "Painting Workshop",
-    startDateTime: new Date("2024-09-22T09:00:00"),
-    endDateTime: new Date("2024-09-22T12:00:00"),
+    startDateTime: "2024-09-22T09:00:00",
+    endDateTime: "2024-09-22T12:00:00",
     location: {
       address: "200 Artisans Ln",
       city: "Portland",
@@ -86,8 +86,8 @@ const events = [
   {
     id: 7,
     title: "Football Championship Final",
-    startDateTime: new Date("2024-09-25T15:00:00"),
-    endDateTime: new Date("2024-09-25T18:00:00"),
+    startDateTime: "2024-09-25T15:00:00",
+    endDateTime: "2024-09-25T18:00:00",
     location: {
       address: "600 Stadium Rd",
       city: "Dallas",
@@ -100,8 +100,8 @@ const events = [
   {
     id: 8,
     title: "Tech Conference 2024",
-    startDateTime: new Date("2024-09-28T08:00:00"),
-    endDateTime: new Date("2024-09-28T17:00:00"),
+    startDateTime: "2024-09-28T08:00:00",
+    endDateTime: "2024-09-28T17:00:00",
     location: {
       address: "900 Innovation Way",
       city: "Seattle",
@@ -114,8 +114,8 @@ const events = [
   {
     id: 9,
     title: "Farmers Market",
-    startDateTime: new Date("2024-10-01T07:00:00"),
-    endDateTime: new Date("2024-10-01T13:00:00"),
+    startDateTime: "2024-10-01T07:00:00",
+    endDateTime: "2024-10-01T13:00:00",
     location: {
       address: "123 Market St",
       city: "Denver",
@@ -128,8 +128,8 @@ const events = [
   {
     id: 10,
     title: "Classical Music Evening",
-    startDateTime: new Date("2024-10-03T19:00:00"),
-    endDateTime: new Date("2024-10-03T21:00:00"),
+    startDateTime: "2024-10-03T19:00:00",
+    endDateTime: "2024-10-03T21:00:00",
     location: {
       address: "567 Symphony Ln",
       city: "Philadelphia",

@@ -1,13 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
-import Header from "./components/Header";
-import events from "./Events/events";
 import EventCard from "./components/EventCard";
+import { fetchEvents } from "./utils/api";
 
-export default function Home() {
+export default async function Home() {
+  const res = await fetchEvents();
   return (
-    <div>
-      <div className="hero bg-white min-h-screen">
+    <div className="min-h-screen">
+      <div className="hero h-screen bg-white">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <img src="/landing.JPG" className="max-w-lg rounded-lg shadow-2xl" />
           <div>
@@ -18,7 +17,7 @@ export default function Home() {
               Experience effortless event management with Block Events, where
               organizers easily create and manage events and attendees discover
               and register for exciting gatherings, all through our intuitive
-              platform
+              platform.
             </p>
             <Link href="/Login">
               <button className="btn btn-primary">Get Started</button>
@@ -27,11 +26,15 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="carousel carousel-end rounded-box">
-        <div className="carousel-item m-3 px-4">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+      <div className="mt-8 overflow-x-hidden">
+        <div className="carousel rounded-box">
+          <div className="flex overflow-x-auto gap-4 p-4">
+            {res.events.map((event: any, key: any) => (
+              <div key={key} className="carousel-item flex-shrink-0">
+                <EventCard event={event} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
