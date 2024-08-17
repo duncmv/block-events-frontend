@@ -63,18 +63,18 @@ const SearchAndFilter = ({
   };
 
   return (
-    <div className="flex justify-between m-4 px-4">
+    <div className="flex flex-col md:flex-row justify-between items-center m-4 px-4 space-y-4 md:space-y-0 md:space-x-4">
       <input
         type="search"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search events"
-        className="max-w-700 p-2 mr-4 border border-gray-400 rounded-lg"
+        className="w-full md:w-2/3 p-2 border border-gray-400 rounded-lg"
       />
       <select
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
-        className="max-w-md p-2 border border-gray-400 rounded-lg"
+        className="w-full md:w-1/3 p-2 border border-gray-400 rounded-lg"
       >
         {categories.map((category) => (
           <option key={category.id} value={category.name}>

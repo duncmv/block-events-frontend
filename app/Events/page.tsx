@@ -31,7 +31,9 @@ const Events = () => {
             setFilteredEvents={setFilteredEvents}
           />
         </div>
-        <button className="btn btn-primary p-2 m-4">Create Event</button>
+        <button className="btn text-white btn-primary p-2 m-4">
+          Create Event
+        </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
