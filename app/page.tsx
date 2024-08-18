@@ -39,12 +39,15 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="carousel carousel-end rounded-box">
-        <div className="carousel-item m-3 px-4">
-          {res.events.map((event: any, key: string) => (
-            <EventCard key={event.id} event={event} />
-          ))}
-        </div>
+      <div className="carousel rounded-box p-8 space-x-4 overflow-x-auto flex">
+        {res.events.map((event: any) => (
+          <div
+            key={event._id}
+            className="carousel-item flex-shrink-0 w-full max-w-xs"
+          >
+            <EventCard event={event} />
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 import React from "react";
-export interface Author {
+interface Author {
   name: string;
   role: string;
   image: string; // URL to the avatar image
   description: string;
 }
 
-export const authors: Author[] = [
+const authors: Author[] = [
   {
     name: "Nebiyou Belaineh",
     role: "Full-stack Developer",

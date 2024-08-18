@@ -79,7 +79,7 @@ const Header: React.FC = () => {
         <Link href="/Services" className="px-4 py-2 hover:text-red-900 font-medium">
           Services
         </Link>
-        <Link href="/AboutUs" className="px-4 py-2 hover:text-red-900 font-medium">
+        <Link href="/About" className="px-4 py-2 hover:text-red-900 font-medium">
           About Us
         </Link>
         {!isAuthenticated && (
