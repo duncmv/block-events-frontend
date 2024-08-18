@@ -13,10 +13,7 @@ interface Event {
     zip_code?: string;
     googleMapsLink?: string;
   };
-  media: {
-    pictures: string[];
-    videos: string[];
-  };
+  media: string[];
   category: string;
 }
 interface EventCardProps {
@@ -24,8 +21,9 @@ interface EventCardProps {
 }
 
 const EventCard = ({ event }: EventCardProps) => {
-  const pics = (event as any).media?.pictures.map((pic: string, key: number) => (
-    <img key={key} className="w-full" src="https://picsum.photos/seed/picsum/500/300" alt="Event image" />
+  const media_url = 'http://localhost:3300/media/';
+  const pics = (event as any).media?.map((pic: string, key: number) => (
+    <img key={key} className="w-full" src={media_url + pic} alt="Event image" />
   ));
   return (
     <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
