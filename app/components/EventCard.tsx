@@ -38,14 +38,13 @@ const EventCard = ({ event }: EventCardProps) => {
           <span className="badge badge-secondary text-sm">HOT</span>
         </div>
         <p className="text-gray-700 text-base mb-4">
-          <p>{event.location}</p>
           {new Date(event.startDateTime).toLocaleString(undefined, {
-              year: 'numeric',
-              month: 'numeric',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
         </p>
         <button
         className="btn btn-primary text-white"
