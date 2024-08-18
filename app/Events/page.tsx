@@ -39,7 +39,7 @@ const Events = () => {
             setFilteredEvents={setFilteredEvents}
           />
         </div>
-          <Link href={localStorage.getItem('token') ? "/Events/Create" : "/Login"} className="btn btn-primary p-2 m-4">Create Event</Link >
+          <Link href={localStorage.getItem('token') ? "/Events/Create" : "/Login"} className="btn btn-primary text-white p-2 m-4">Create Event</Link >
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

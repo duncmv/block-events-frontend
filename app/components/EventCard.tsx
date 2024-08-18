@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import EventModal from "./EventModal"
 
 interface Event {
   _id: string;
@@ -36,12 +38,27 @@ const EventCard = ({ event }: EventCardProps) => {
           <span className="badge badge-secondary text-sm">HOT</span>
         </div>
         <p className="text-gray-700 text-base mb-4">
-          {new Date(event.startDateTime).toLocaleString()} {/* Converts the date to a readable format */}
+          <p>{event.location}</p>
+          {new Date(event.startDateTime).toLocaleString(undefined, {
+              year: 'numeric',
+              month: 'numeric',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
         </p>
+        <button
+        className="btn btn-primary text-white"
+        onClick={() => document.getElementById('my_modal_2').showModal()}
+        >
+        Details
+        </button>
         <div className="flex justify-end">
           <span className="badge badge-outline text-sm">{event.category}</span>
         </div>
       </div>
+      
+      <EventModal event={event} />
     </div>
 
   );
