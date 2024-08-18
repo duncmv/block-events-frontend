@@ -1,36 +1,64 @@
-export default function Services() {
+const servicesData = [
+  {
+    title: "Ticket Management",
+    description:
+      "We offer efficient ticket management services, including online sales, on-site check-ins, and real-time reporting.",
+    image: "/ticket.webp",
+  },
+  {
+    title: "Event Planning",
+    description:
+      "Our event planning team will work with you to ensure every detail of your event is perfectly executed.",
+    image: "/mgt.jpg",
+  },
+  {
+    title: "Marketing",
+    description:
+      "Our marketing services ensure that your event reaches the right audience through targeted campaigns and social media promotion.",
+    image: "/marketing.webp",
+  },
+  {
+    title: "Catering",
+    description:
+      "We provide top-notch catering services with a variety of menu options to satisfy all your guests.",
+    image: "/catering.jpg",
+  },
+  {
+    title: "Decor",
+    description:
+      "Our decor services will transform your event space into a stunning and memorable environment.",
+    image: "/decor.jpg",
+  },
+];
+
+const Services = () => {
   return (
-    <div className="container mx-auto py-8">
-      <h2 className="text-4xl font-bold mb-8">Our Services</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        <div className="bg-white border border-gray-200 rounded-lg shadow-md p-8">
-          <h3 className="text-2xl font-bold mb-4">
-            Event Creation
-          </h3>
-          <p className="text-gray-600 mb-8">
-            Create events just by filling out a few details and uploading a few
-            photos. Our platform makes it easy to create and manage events
-          </p>
+    <div className="space-y-4 p-8 my-4">
+      {servicesData.map((service, index) => (
+        <div key={index} className="collapse collapse-arrow bg-white">
+          <input type="radio" name="my-accordion-2" />
+          <div className="collapse-title text-xl font-bold text-red-900 ">
+            {service.title}
+          </div>
+          <div className="collapse-content justify-between items-start">
+            <div className="w-9/12">
+              <p>{service.description}</p>
+              <img
+                src={service.image}
+                alt={service.title}
+                className="w-auto max-h-48 my-2"
+              />
+            </div>
+            <div className="w-3/12 flex items-end">
+              <button className=" btn btn-primary text-white rounded">
+                Request Service
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg shadow-md p-8">
-          <h3 className="text-2xl font-bold mb-4">
-            Event Management
-          </h3>
-          <p className="text-gray-600 mb-8">
-            Manage your events with ease. Our platform gives you complete control
-            over your event, from tickets sales to attendees management
-          </p>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-lg shadow-md p-8">
-          <h3 className="text-2xl font-bold mb-4">
-            Event Discovery
-          </h3>
-          <p className="text-gray-600 mb-8">
-            Discover new events and events near you. Our platform makes it easy
-            for you to explore and find events that match your interests
-          </p>
-        </div>
-      </div>
+      ))}
     </div>
   );
-}
+};
+
+export default Services;

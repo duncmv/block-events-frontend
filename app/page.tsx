@@ -1,16 +1,27 @@
 import Link from "next/link";
+import Header from "./components/Header";
+import Image from "next/image";
 import EventCard from "./components/EventCard";
 import { fetchEvents } from "./utils/api";
 
 export default async function Home() {
   const res = await fetchEvents();
   return (
-    <div className="min-h-screen">
-      <div className="hero h-screen bg-white">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <img src="/landing.JPG" className="max-w-lg rounded-lg shadow-2xl" />
-          <div>
-            <h1 className="text-5xl font-bold">
+    <div>
+      {/* Hero Section */}
+      <div className="hero bg-white min-h-screen flex items-center justify-center">
+        <div className="hero-content flex flex-col lg:flex-row-reverse items-center lg:items-start lg:justify-between w-full max-w-screen-lg">
+          <div className="flex-shrink-0 w-full max-w-md lg:max-w-lg">
+            <Image
+              src="/landing.JPG"
+              alt="Landing Image"
+              width={500}
+              height={500}
+              className="rounded-lg shadow-2xl w-full h-auto object-cover"
+            />
+          </div>
+          <div className="text-center lg:text-left lg:max-w-lg lg:mr-10 mt-8 lg:mt-0">
+            <h1 className="text-4xl lg:text-5xl font-bold">
               Discover, Manage, and Enjoy Events
             </h1>
             <p className="py-6">
@@ -20,21 +31,19 @@ export default async function Home() {
               platform.
             </p>
             <Link href="/Login">
-              <button className="btn btn-primary">Get Started</button>
+              <button className="btn btn-primary font-sans text-white">
+                Get Started
+              </button>
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="mt-8 overflow-x-hidden">
-        <div className="carousel rounded-box">
-          <div className="flex overflow-x-auto gap-4 p-4">
-            {res.events.map((event: any, key: any) => (
-              <div key={key} className="carousel-item flex-shrink-0">
-                <EventCard event={event} />
-              </div>
-            ))}
-          </div>
+      <div className="carousel carousel-end rounded-box">
+        <div className="carousel-item m-3 px-4">
+          {res.events.map((event: any, key: string) => (
+            <EventCard key={event.id} event={event} />
+          ))}
         </div>
       </div>
     </div>
