@@ -33,6 +33,12 @@ export default function Header() {
           About Us
         </Link>
         <Link
+          href="Events/Create"
+          className="px-4 py-2 hover:text-red-900 font-medium"
+        >
+          Create Event
+        </Link>
+        <Link
           href="/Login"
           className="px-4 py-2 hover:text-red-900 font-medium"
         >
