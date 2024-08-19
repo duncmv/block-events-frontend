@@ -30,7 +30,7 @@ export default async function Home() {
               and register for exciting gatherings, all through our intuitive
               platform.
             </p>
-            <Link href="/Login">
+            <Link href="/Events">
               <button className="btn btn-primary font-sans text-white">
                 Get Started
               </button>

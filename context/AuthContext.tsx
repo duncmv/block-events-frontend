@@ -6,11 +6,12 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
   const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-
+    console.log("Checking token");
     if (token) {
       fetch('http://localhost:3300/api/auth/check', {
         method: 'GET',
@@ -23,6 +24,8 @@ export const AuthProvider = ({ children }) => {
         .then(data => {
           if (data.isAuthenticated) {
             setIsAuthenticated(true);
+            setCurrentUser(data.user);
+            // console.log(currentUser);
           } else {
             setIsAuthenticated(false);
           }
@@ -42,6 +45,7 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
+        setCurrentUser({});
         window.location.href= '/';
       } else {
         console.error('Logout failed.');
@@ -52,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, handleLogout }}>
+    <AuthContext.Provider value={{ isAuthenticated, handleLogout, currentUser }}>
       {children}
     </AuthContext.Provider>
   );

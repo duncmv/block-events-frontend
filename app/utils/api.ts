@@ -4,7 +4,7 @@ export async function fetchEvents() {
     const res = await fetch('http://localhost:3300/api/events', {
       method: 'GET',
       credentials: 'include',
-      next: { revalidate: 5 },
+      next: { revalidate: 10 },
       // cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',

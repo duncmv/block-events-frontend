@@ -1,6 +1,8 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import EventModal from "./EventModal"
+import { AuthContext } from "../../context/AuthContext";
+import { useState, useContext } from "react";
 
 interface Event {
   _id: string;
@@ -23,6 +25,18 @@ interface EventCardProps {
 }
 
 const EventCard = ({ event }: EventCardProps) => {
+  const [register, setRegister] = useState(false);
+  const { currentUser, isAuthenticated } = useContext(AuthContext);
+  console.log(isAuthenticated);
+  // console.log(currentUser);
+  // console.log(event._id);
+  useEffect(() => {
+    // if (!currentUser) { return; }
+    if (isAuthenticated && currentUser.registeredEvents.includes(event._id)) {
+      setRegister(true);
+    }
+  }, []);
+
   const media_url = 'http://localhost:3300/media/';
   const pics = (event as any).media?.map((pic: string, key: number) => (
     <img key={key} className="w-full" src={media_url + pic} alt="Event image" />
@@ -55,7 +69,7 @@ const EventCard = ({ event }: EventCardProps) => {
           <span className="badge badge-outline text-sm">{event.category}</span>
         </div>
       </div>
-      <EventModal event={event} />
+      <EventModal event={event} register={register} setRegister={setRegister}/>
     </div>
 
   );

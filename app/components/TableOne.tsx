@@ -76,6 +76,7 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                         </div>
                         <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
                             <button className="btn btn-neutral">{tabName === 'My Events' ? "Edit" : "View"}</button>
+                            <button className="btn btn-neutral">{tabName === 'My Events' ? "Delete" : "Unregister"}</button>
                         </div>
                     </div>
                 )) || <p>No events found</p>}
