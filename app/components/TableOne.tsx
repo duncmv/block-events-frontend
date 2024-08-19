@@ -28,6 +28,7 @@ interface TableProps {
 }
 
 const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, currentTab }) => {
+  console.log(events);
     const formatDate = (dateToFormat: string) => {
         let dateStr = dateToFormat.replace("K", "");
         const date = new Date(dateStr);

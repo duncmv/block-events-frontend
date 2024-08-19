@@ -1,63 +1,64 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '../../context/AuthContext'
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token'); // or use cookies.get('jwt')
-
-    if (token) {
-      // Optionally, verify the token by making a request to the backend
-      fetch('http://localhost:3300/api/auth/check', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.isAuthenticated) {
-            setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
-          }
-        });
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, [router]);
+  //useEffect(() => {
+  //  const token = localStorage.getItem('token'); // or use cookies.get('jwt')
+//
+  //  if (token) {
+  //    // Optionally, verify the token by making a request to the backend
+  //    fetch('http://localhost:3300/api/auth/check', {
+  //      method: 'GET',
+  //      credentials: 'include',
+  //      headers: {
+  //        Authorization: `Bearer ${token}`,
+  //      },
+  //    })
+  //      .then(response => response.json())
+  //      .then(data => {
+  //        if (data.isAuthenticated) {
+  //          setIsAuthenticated(true);
+  //        } else {
+  //          setIsAuthenticated(false);
+  //        }
+  //      });
+  //  } else {
+  //    setIsAuthenticated(false);
+  //  }
+  //}, [router]);
 
   
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('http://localhost:3300/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      if (response.ok) {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-        router.push('/');
-      } else {
-        console.error('Logout failed.');
-      }
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
-  };
+  //const handleLogout = async () => {
+  //  try {
+  //    const response = await fetch('http://localhost:3300/api/auth/logout', {
+  //      method: 'POST',
+  //      credentials: 'include',
+  //    });
+//
+  //    if (response.ok) {
+  //      localStorage.removeItem('token');
+  //      setIsAuthenticated(false);
+  //      router.push('/');
+  //    } else {
+  //      console.error('Logout failed.');
+  //    }
+  //  } catch (error) {
+  //    console.error('Error logging out:', error);
+  //  }
+  //};
 
 
   return (
@@ -67,11 +68,9 @@ const Header: React.FC = () => {
       </Link>
       <nav className="hidden md:flex justify-end space-x-4">
         {isAuthenticated && localStorage.getItem('token') && (
-          <>
-            <Link href="/Dashboard" className="px-4 py-2 hover:text-red-900 font-medium">
-              Dashboard
-            </Link>
-          </>
+          <Link href="/Dashboard" className="px-4 py-2 hover:text-red-900 font-medium">
+            Dashboard
+          </Link>
         )}
         <Link href="/Events" className="px-4 py-2 hover:text-red-900 font-medium">
           Events
@@ -86,11 +85,6 @@ const Header: React.FC = () => {
         <Link href="/Login" className="px-4 py-2 hover:text-red-900 font-medium">
           Sign In
         </Link>
-        )}
-        {isAuthenticated && (
-          <button onClick={handleLogout} className="px-4 py-2 hover:text-red-900 font-medium">
-            Sign Out
-          </button>
         )}
       </nav>
       {/* Hamburger Menu Icon for small screens */}
@@ -116,17 +110,18 @@ const Header: React.FC = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <nav className="md:hidden flex flex-col absolute top-20 right-4 bg-white w-56 max-h-64 border rounded-lg space-y-2 p-4 z-50 shadow-lg">
+          {isAuthenticated && localStorage.getItem('token') && (
+          <>
+            <Link href="/Dashboard" className="px-4 py-2 hover:text-red-900 font-medium">
+              Dashboard
+            </Link>
+          </>
+          )}
           <Link
             href="/Events"
             className="px-4 py-2 hover:text-red-900 font-medium"
           >
             Events
-          </Link>
-          <Link
-            href="/Dashboard"
-            className="px-4 py-2 hover:text-red-900 font-medium"
-          >
-            Dashboard
           </Link>
           <Link
             href="/Services"
@@ -140,12 +135,11 @@ const Header: React.FC = () => {
           >
             About Us
           </Link>
-          <Link
-            href="/Login"
-            className="px-4 py-2 hover:text-red-900 font-medium"
-          >
-            Sign In
-          </Link>
+          {!isAuthenticated && (
+            <Link href="/Login" className="px-4 py-2 hover:text-red-900 font-medium">
+              Sign In
+            </Link>
+          )}
         </nav>
       )}
     </header>

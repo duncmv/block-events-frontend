@@ -19,6 +19,7 @@ export async function getMyEvents(token: any) {
     const response = await fetch('http://localhost:3300/api/events/myevents',
       {
         method: 'GET',
+        cache: 'no-store',
         headers: {
           'Authorization': `Bearer ${token.value}`,
           'Content-Type': 'application/json',
