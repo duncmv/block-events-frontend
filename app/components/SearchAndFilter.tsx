@@ -3,10 +3,16 @@ import React, { useState, useEffect } from "react";
 
 const categories = [
   { id: 0, name: "All Categories" },
-  { id: 1, name: "Music" },
+  { id: 1, name: "Education" },
   { id: 2, name: "Sports" },
-  { id: 3, name: "Food" },
-  { id: 4, name: "Arts" },
+  { id: 3, name: "Art" },
+  { id: 4, name: "Tech" },
+  { id: 5, name: "Business" },
+  { id: 6, name: "Music" },
+  { id: 7, name: "Health" },
+  { id: 8, name: "Lifestyle" },
+  { id: 9, name: "Food" },
+  { id: 10, name: "Travel" },
 ];
 
 interface Event {

@@ -1,61 +1,58 @@
 "use client";
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-interface AuthContextProps {
-  isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
-}
+export const AuthContext = createContext();
 
-export const AuthContext = createContext<AuthContextProps>({
-  isAuthenticated: false,
-  login: () => {},
-  logout: () => {},
-});
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('http://localhost:3300/api/auth/check', {
-          method: 'GET',
-          credentials: 'include',
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      fetch('http://localhost:3300/api/auth/check', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.isAuthenticated) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
         });
-        const data = await response.json();
-        setIsAuthenticated(data.isAuthenticated);
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-      }
-    };
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [router]);
 
-    checkAuth();
-  }, []);
-
-  const login = () => setIsAuthenticated(true);
-
-  const logout = async () => {
+  const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', {
+      const response = await fetch('http://localhost:3300/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });
-      setIsAuthenticated(false);
-      router.push('/login');
+
+      if (response.ok) {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+        window.location.href= '/';
+      } else {
+        console.error('Logout failed.');
+      }
     } catch (error) {
       console.error('Error logging out:', error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );
