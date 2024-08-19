@@ -35,21 +35,19 @@ const EventCard = ({ event }: EventCardProps) => {
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2 flex items-center justify-between">
           {event.title}
-          <span className="badge badge-secondary text-sm">HOT</span>
         </div>
-        <p className="text-gray-700 text-base mb-4">
-          <p>{event.location}</p>
-          {new Date(event.startDateTime).toLocaleString(undefined, {
+        <p className="text-gray-700 text-base mb-1">{event.location}</p>
+        <p className="text-gray-700 text-base mb-1">{new Date(event.startDateTime).toLocaleString(undefined, {
               year: 'numeric',
               month: 'numeric',
               day: 'numeric',
               hour: '2-digit',
               minute: '2-digit',
-            })}
-        </p>
+            })}</p>
+        
         <button
-        className="btn btn-primary text-white"
-        onClick={() => document.getElementById('my_modal_2').showModal()}
+        className="mt-3 btn btn-primary text-white"
+        onClick={() => document.getElementById(event._id).showModal()}
         >
         Details
         </button>
@@ -57,7 +55,6 @@ const EventCard = ({ event }: EventCardProps) => {
           <span className="badge badge-outline text-sm">{event.category}</span>
         </div>
       </div>
-      
       <EventModal event={event} />
     </div>
 

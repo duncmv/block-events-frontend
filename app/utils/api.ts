@@ -1,10 +1,10 @@
-import { cookies } from "next/headers";
+
 
 export async function fetchEvents() {
     const res = await fetch('http://localhost:3300/api/events', {
       method: 'GET',
       credentials: 'include',
-      next: { revalidate: 20 },
+      next: { revalidate: 5 },
       // cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
@@ -13,6 +13,19 @@ export async function fetchEvents() {
     if (!res.ok) { console.log('Failed to fetch events'); }
     return res.json();
   }
+
+export async function registerEvent(token: any, id: string){
+  
+  const res = await fetch(`http://localhost:3300/api/events/${id}/register`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      }
+    });
+    return res;
+}
 
 export async function getMyEvents(token: any) {
     // console.log(token);
