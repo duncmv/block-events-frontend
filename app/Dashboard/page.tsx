@@ -2,7 +2,8 @@ import React from 'react';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Sidebar from '../components/Sidebar';
-import TableOne from '../components/Table';
+import TableOne from '../components/TableOne';
+import NotificationSidebar from '../components/NotificationSidebar';
 import { getMyEvents, getRegisteredEvents } from '../utils/api';
 
 const ITEMS_PER_PAGE = 6;
@@ -31,26 +32,27 @@ const Dashboard = async ({ searchParams }) => {
 
   return (
     <div className="flex h-screen">
-      <Sidebar currentTab={currentTab} />
-      <div className="flex-1 flex flex-col gap-4 p-4 md:ml-64 transition-all duration-300">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <div className="border border-gray-300 rounded-lg p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {paginatedEvents && paginatedEvents.length > 0 ? (
-              <div className="col-span-12 xl:col-span-8">
-                <TableOne
-                  events={paginatedEvents}
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  currentTab={currentTab}
-                />
-              </div>
-            ) : (
-              <p>No events yet</p>
-            )}
-          </div>
+      {/* Left Sidebar */}
+      <aside className="w-64 bg-gray-100 p-4 shadow-md">
+        <Sidebar currentTab={currentTab} />
+      </aside>
+
+      {/* Main Content Area */}
+      <main className="flex-1 p-4 mb-4 flex flex-col">
+        <div className="flex-1 bg-white border border-gray-300 rounded-lg p-4 flex flex-col">
+            <TableOne
+              events={paginatedEvents}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              currentTab={currentTab}
+            />
         </div>
-      </div>
+      </main>
+
+      {/* Right Sidebar (Notification Sidebar) */}
+      <aside className="w-64 bg-gray-100 p-2 shadow-lg">
+        <NotificationSidebar />
+      </aside>
     </div>
   );
 };

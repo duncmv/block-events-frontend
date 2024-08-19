@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { getAttendees } from '../utils/api';
 
 interface Event {
     _id: string;
@@ -15,6 +16,8 @@ interface Event {
         phone: string;
         email: string;
     };
+    attendees: string[];
+    status: string;
 }
 
 interface TableProps {
@@ -30,10 +33,11 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
         const date = new Date(dateStr);
         return date.toLocaleString();
     };
+    const tabName = (currentTab === 'myEvents') ? 'My Events' : 'Registered Events';
 
     return (
         <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-            <h4 className="mb-6 text-xl font-semibold text-black">Upcoming Events</h4>
+            <h4 className="mb-6 text-xl font-semibold text-black">{tabName}</h4>
             <div className="flex flex-col">
                 <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
                     <div className="p-2.5 xl:p-5">
@@ -46,10 +50,10 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                         <h5 className="text-sm font-medium uppercase xsm:text-base">Location</h5>
                     </div>
                     <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">Organizer Name</h5>
+                        <h5 className="text-sm font-medium uppercase xsm:text-base">{tabName === 'My Events' ? 'No. of Attendees' : 'Status'}</h5>
                     </div>
                     <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base">Register / RSVP</h5>
+                        <h5 className="text-sm font-medium uppercase xsm:text-base">Action</h5>
                     </div>
                 </div>
                 {events.map((event, key) => (
@@ -68,13 +72,13 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                             <p className="text-black">{event.location}</p>
                         </div>
                         <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                            <p className="text-black">{event?.organizer?.name || "N/A"}</p>
+                            <p className="text-black">{tabName === 'My Events' ? event?.attendees?.length : event?.status || "N/A"}</p>
                         </div>
                         <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                            <button className="btn btn-neutral">RSVP</button>
+                            <button className="btn btn-neutral">{tabName === 'My Events' ? "Edit" : "View"}</button>
                         </div>
                     </div>
-                ))}
+                )) || <p>No events found</p>}
             </div>
             {/* Pagination controls */}
             {totalPages > 1 && (

@@ -58,3 +58,16 @@ export async function getMyEvents(token: any) {
     return res;
   }
   
+export async function getAttendees(token: any) {
+    const response = await fetch('http://localhost:3300/api/events/attendees',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token.value}`,
+          'Content-Type': 'application/json',
+        }
+      });
+    if (!response.ok) { console.log('Failed to fetch attendees'); }
+    const res = response.json()
+    return res;
+  }
