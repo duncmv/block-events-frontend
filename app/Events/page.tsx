@@ -27,22 +27,31 @@ const Events = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-full">
+        <span className="loading loading-spinner text-primary loading-lg"></span>
+      </div>
+    );
   }
 
   return (
     <div>
-      <div className="flex justify-between max-h-70">
-        <div className="flex">
+      <div className="flex justify-between  max-h-70">
+        <div className="flex md:w-2/3">
           <SearchAndFilter
             events={allEvents}
             setFilteredEvents={setFilteredEvents}
           />
         </div>
-          <Link href={localStorage.getItem('token') ? "/Events/Create" : "/Login"} className="btn btn-primary text-white p-2 m-4">Create Event</Link >
+        <Link
+          href={localStorage.getItem("token") ? "/Events/Create" : "/Login"}
+          className="btn btn-primary text-white p-2 m-4"
+        >
+          Create Event
+        </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="mx-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredEvents.map((event: any, key: number) => (
           <EventCard key={key} event={event} />
         ))}
