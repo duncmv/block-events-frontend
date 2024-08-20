@@ -55,10 +55,8 @@ const SignUpForm: React.FC = () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        window.location.href = '/Dashboard'; // Redirect to dashboard or home page
-        // console.log(data);
+        window.location.href = '/Dashboard';
       } else {
-        // Process errors returned from the backend
         const backendErrors: ErrorsProps = {};
         data.errors.forEach((error: { field: string; message: string }) => {
           backendErrors[error.field] = error.message;
