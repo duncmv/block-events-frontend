@@ -7,15 +7,15 @@ interface Event {
     title: string;
     description: string;
     startDateTime: string;
-    endDateTime?: string;
+    endDateTime: string;
     location: string;
-    media: string[];
+    media: string;
     category: string;
     attendees: string[];
     status: string;
     organizer: {
         name: string;
-        phone: string;
+        address: string;
         email: string;
     };
 }
@@ -53,11 +53,11 @@ export const DialogModal = ({ token, event, tabName, setIsDeleted, setIsUnregist
                 router.refresh();
             }
         }
-}
+    }
     return (
         <div>
             {/* <button className='btn' onClick={() => document.getElementById(event._id)?.showModal()} type='button'>Open Modal</button> */}
-            <dialog id={event._id} className="modal">
+            <dialog id={event._id+"dialog"} className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Delete Event: {event.title}!</h3>
                     <p className="py-4">Are you sure you want to {tabName === 'My Events' ? <strong>delete</strong> : <strong>unregister for</strong>} this event?</p>

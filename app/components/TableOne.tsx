@@ -10,23 +10,24 @@ import { useRouter } from 'next/navigation';
 import { Tooltip } from '@mui/material';
 import { DialogModal } from './DialogModal';
 import { unRegisterEvent } from '../utils/api';
+import EventModal from './EventModal';
 
 interface Event {
     _id: string;
     title: string;
     description: string;
     startDateTime: string;
-    endDateTime?: string;
+    endDateTime: string;
     location: string;
-    media: string[];
+    media: string;
     category: string;
-    organizer: {
-        name: string;
-        phone: string;
-        email: string;
-    };
     attendees: string[];
     status: string;
+    organizer: {
+      name: string;
+      address: string;
+      email: string;
+    };
 }
 
 interface TableProps {
@@ -135,7 +136,7 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                         <div className="flex items-center justify-center p-2.5 xl:p-5">
                             <p className="text-black">{formatDate(event.startDateTime)}</p>
                         </div>
-                        <div className="flex items-center p-2.5 xl:p-5">
+                        <div className="flex items-center p-2.5 xl:p-5 justify-center">
                             <p className="text-black">{event.location}</p>
                         </div>
                         <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
@@ -152,7 +153,10 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                                 ) : (
                                     <Tooltip title="View">
                                         <VisibilityIcon className='hover:text-red-900'
-                                            onClick={() => { handleView(event) }
+                                            onClick={() => { 
+                                                const modal = document.getElementById(event._id);
+                                                if (modal instanceof HTMLDialogElement) { modal.showModal() }
+                                             }
                                             }
                                             style={{ cursor: 'pointer' }}
                                         />
@@ -164,7 +168,7 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                                     <Tooltip title="Delete">
                                         <DeleteIcon className='hover:text-red-900'
                                             onClick={() => {
-                                                const modal: HTMLElement | null = document.getElementById(event._id);
+                                                const modal: HTMLElement | null = document.getElementById(event._id+"dialog");
                                                 if (modal instanceof HTMLDialogElement) { modal.showModal() }
                                             }}
                                             style={{ cursor: 'pointer' }}
@@ -184,6 +188,7 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                             </div>
                         </div>
                         <DialogModal token={token} event={event} tabName={tabName} isDeleted={isDeleted} setIsDeleted={setIsDeleted} isUnregistered={isUnregistered} setIsUnregistered={setIsUnregistered} />
+                        <EventModal event={event} register={true} setRegister={null}/>
                     </div>
                 )) || <p>No events found</p>}
             </div>

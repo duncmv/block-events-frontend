@@ -1,16 +1,38 @@
 import { useState, useContext, useEffect } from "react";
 import { registerEvent } from "../utils/api";
 
-const EventModal = ({ event, register, setRegister }) => {
+interface Event {
+  _id: string;
+  title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+  location: string;
+  media: string;
+  category: string;
+  attendees: string[];
+  status: string;
+  organizer: {
+    name: string;
+    address: string;
+    email: string;
+  };
+}
+interface EventModalProps {
+  event: Event;
+  register?: boolean;
+  setRegister: any;
+}
+const EventModal = ({ event, register, setRegister }: EventModalProps) => {
   const mediaUrl = 'http://localhost:3300/media/';
   const pics = <img src={mediaUrl + event.media} alt="Event Image" />
 
   const handleRegister = async () => {
-    console.log("register: ", register);
+    // console.log("register: ", register);
     if (register) {
       return;
     }
-    console.log(event);
+    // console.log(event);
 
     const token = localStorage.getItem("token");
 
@@ -112,11 +134,10 @@ const EventModal = ({ event, register, setRegister }) => {
               </div>
               <button
                 onClick={register ? undefined : handleRegister}
-                className={`btn ${
-                  register
-                    ? "bg-green-100 text-gray-500 cursor-not-allowed"
-                    : "btn-primary text-white"
-                } mt-4`}
+                className={`btn ${register
+                  ? "bg-green-100 text-gray-500 cursor-not-allowed"
+                  : "btn-primary text-white"
+                  } mt-4`}
               >
                 {register ? "Registered" : "Register"}
               </button>

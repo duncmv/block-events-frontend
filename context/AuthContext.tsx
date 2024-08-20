@@ -2,11 +2,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export const AuthContext = createContext({ currentUser: {}, isAuthenticated: false , handleLogout: () => {} });
+export const AuthContext = createContext({ currentUser: { registeredEvents: [""] }, isAuthenticated: false, handleLogout: () => { } });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({registeredEvents: [""]});
   const router = useRouter();
 
   useEffect(() => {
@@ -45,8 +45,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (response.ok) {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
-        setCurrentUser({});
-        window.location.href= '/';
+        // Potential issue
+        setCurrentUser({registeredEvents: [""]});
+        window.location.href = '/';
       } else {
         console.error('Logout failed.');
       }
@@ -56,7 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{currentUser, isAuthenticated, handleLogout }}>
+    <AuthContext.Provider value={{ currentUser, isAuthenticated, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

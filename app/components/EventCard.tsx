@@ -9,11 +9,19 @@ interface Event {
   title: string;
   description: string;
   startDateTime: string;
-  endDateTime?: string;
+  endDateTime: string;
   location: string;
-  media: string[];
+  media: string;
   category: string;
+  attendees: string[];
+  status: string;
+  organizer: {
+    name: string;
+    address: string;
+    email: string;
+  };
 }
+
 interface EventCardProps {
   event: Event;
 }
@@ -34,7 +42,10 @@ const EventCard = ({ event }: EventCardProps) => {
   return (
     <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
       <a
-        onClick={() => document?.getElementById(event._id).showModal()}
+        onClick={() => {
+          const modal = document.getElementById(event._id);
+          if (modal instanceof HTMLDialogElement) {modal.showModal();}
+        }}
         className="block"
       >
         <figure className="w-full h-48 md:h-60 overflow-hidden">{pics}</figure>
