@@ -21,10 +21,10 @@ export default async function Home() {
             />
           </div>
           <div className="text-center lg:text-left lg:max-w-lg lg:mr-10 mt-8 lg:mt-0">
-            <h1 className="text-4xl lg:text-5xl font-bold">
+            <h1 className="text-4xl lg:text-6xl font-bold">
               Discover, Manage, and Enjoy Events
             </h1>
-            <p className="py-6">
+            <p className="py-6 text-l">
               Experience effortless event management with Block Events, where
               organizers easily create and manage events and attendees discover
               and register for exciting gatherings, all through our intuitive
@@ -39,7 +39,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="carousel rounded-box p-8 space-x-4 overflow-x-auto flex">
+      <div className="carousel rounded-box p-8 space-x-4 overflow-x-auto flex bg-#f7eaea">
         {res.events.map((event: any) => (
           <div
             key={event._id}
