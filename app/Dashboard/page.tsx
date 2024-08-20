@@ -8,7 +8,7 @@ import { getMyEvents, getRegisteredEvents } from "../utils/api";
 
 const ITEMS_PER_PAGE = 6;
 
-const Dashboard = async ({ searchParams }) => {
+const Dashboard = async ({ searchParams }: any) => {
   const token = cookies().get("jwt");
 
   if (!token || token.value === "loggedout") {

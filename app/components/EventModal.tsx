@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { registerEvent } from "../utils/api";
 
-const EventModal = ({ event, register, setRegister }) => {
+const EventModal = ({ event, register, setRegister }: any) => {
   const media_url = "http://localhost:3300/media/";
   const pics = (event as any).media?.map((pic: string, key: number) => (
     <img key={key} className="w-full" src={media_url + pic} alt="Event image" />
@@ -15,7 +15,7 @@ const EventModal = ({ event, register, setRegister }) => {
 
     const token = localStorage.getItem("token");
 
-    if (!token || token.value === "loggedout") {
+    if (!token) {
       window.location.href = "/Login";
     }
     const res = await registerEvent(token, event._id);

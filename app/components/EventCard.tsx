@@ -10,13 +10,14 @@ interface Event {
   description: string;
   startDateTime: string;
   endDateTime?: string;
-  location: {
-    address: string;
+  location: string;
+  /*{
+      address: string;
     city: string;
     state: string;
     zip_code?: string;
     googleMapsLink?: string;
-  };
+  };*/
   media: string[];
   category: string;
 }
@@ -26,7 +27,7 @@ interface EventCardProps {
 
 const EventCard = ({ event }: EventCardProps) => {
   const [register, setRegister] = useState(false);
-  const { currentUser, isAuthenticated } = useContext(AuthContext);
+  const { currentUser, isAuthenticated }: any = useContext(AuthContext);
   console.log(isAuthenticated);
   // console.log(currentUser);
   // console.log(event._id);
@@ -48,7 +49,7 @@ const EventCard = ({ event }: EventCardProps) => {
   ));
   return (
     <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white">
-      <a onClick={() => document.getElementById(event._id).showModal()}>
+      <a onClick={() => document?.getElementById(event._id).showModal()}>
         <figure className="w-full h-3/5">{pics}</figure>
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2 flex items-center justify-between">
