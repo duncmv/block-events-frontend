@@ -66,7 +66,7 @@ export const DialogModal = ({ token, event, tabName, setIsDeleted, setIsUnregist
                         <form method="dialog">
                             {/* if there is a button in form, it will close the modal */}
                             <button onClick={handleAction} className="btn btn-secondary mr-5 text-white">{tabName === 'My Events' ? 'Delete' : 'Unregister'}</button>
-                            <button className="btn btn-accent text-white">Cancel</button>
+                            <button className="btn text-black">Cancel</button>
                         </form>
                     </div>
                 </div>
