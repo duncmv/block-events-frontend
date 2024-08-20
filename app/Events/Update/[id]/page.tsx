@@ -128,7 +128,7 @@ const UpdateEventForm: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: name.includes('Date') ? new Date(value) : value,
+      [name]: value,
     }));
   };
 
