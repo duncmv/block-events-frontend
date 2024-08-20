@@ -18,3 +18,21 @@ body {
   padding: 1rem;
   background-color: #ff5e5e0d;
 }
+
+@media (max-width: 1000px) {
+  .custom-sidebar {
+    display: none !important;
+  }
+  .custom-ellipsis {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1001px) {
+  .custom-sidebar {
+    display: block !important;
+  }
+  .custom-ellipsis {
+    display: none !important;
+  }
+}

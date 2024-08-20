@@ -26,9 +26,9 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
       <input type="checkbox" id="menu-toggle" className="hidden" />
       <div className="flex flex-col h-full w-64 bg-white text-neutral-800 transform -translate-x-full transition-transform duration-300 ease-in-out md:translate-x-0 z-50 p-4 rounded-lg">
         <div className="mb-4">
-          <h2 className="text-xl font-bold text-darkred mb-4">
+          {/*<h2 className="text-xl font-bold text-darkred mb-4">
             {getTabName(currentTab)}
-          </h2>
+          </h2>*/}
           <ul className="space-y-2">
             <li>
               <Link
@@ -83,7 +83,7 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
               </p>
             </div>
             <div className="flex flex-col w-full space-y-2">
-              <button className="w-full p-2 text-center block rounded-lg bg-red-900 text-white">
+              <button className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900">
                 Edit Profile
               </button>
               <button
