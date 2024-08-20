@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useRouter } from "next/navigation";
+import { CurrencyBitcoin } from "@mui/icons-material";
 
 interface SidebarProps {
   currentTab: string;
@@ -9,6 +11,14 @@ interface SidebarProps {
 
 const Sidebar = ({ currentTab }: SidebarProps) => {
   const { currentUser, handleLogout }: any = useContext(AuthContext);
+  const router = useRouter();
+  const mediaUrl = 'http://localhost:3300/media/';
+  const profilePic = <img
+    className="h-full w-full object-cover rounded-full"
+    src={(mediaUrl + currentUser?.profile?.avatar)
+    }
+    alt="Avatar"
+  />
 
   const getTabName = (tab: any) => {
     switch (tab) {
@@ -33,11 +43,10 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
             <li>
               <Link
                 href={{ pathname: "/Dashboard", query: { tab: "myEvents" } }}
-                className={`w-full p-2 text-left block rounded-lg ${
-                  currentTab === "myEvents"
-                    ? "bg-red-900 text-white"
-                    : "bg-gray-200 text-red-900"
-                }`}
+                className={`w-full p-2 text-left block rounded-lg ${currentTab === "myEvents"
+                  ? "bg-red-900 text-white"
+                  : "bg-gray-200 text-red-900"
+                  }`}
               >
                 My Events
               </Link>
@@ -48,11 +57,10 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
                   pathname: "/Dashboard",
                   query: { tab: "registeredEvents" },
                 }}
-                className={`w-full p-2 text-left block rounded-lg ${
-                  currentTab === "registeredEvents"
-                    ? "bg-red-900 text-white"
-                    : "bg-gray-200 text-red-900"
-                }`}
+                className={`w-full p-2 text-left block rounded-lg ${currentTab === "registeredEvents"
+                  ? "bg-red-900 text-white"
+                  : "bg-gray-200 text-red-900"
+                  }`}
               >
                 Registered Events
               </Link>
@@ -63,15 +71,8 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
         <div className="mt-auto">
           <div className="flex flex-col items-center justify-between mt-8 mb-2">
             <div className="relative mb-0">
-              <div className="avatar ring-primary ring-offset-base-100 w-16 rounded-full ring ring-offset-2">
-                <img
-                  className="h-full w-full object-cover rounded-full"
-                  src={
-                    currentUser?.avatarUrl ||
-                    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                  }
-                  alt="Avatar"
-                />
+              <div className="avatar ring-primary ring-offset-base-100 w-16 h-16 rounded-full ring ring-offset-2">
+                {profilePic}
               </div>
             </div>
             <div className="flex flex-col items-center justify-center mb-4">
@@ -83,7 +84,9 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
               </p>
             </div>
             <div className="flex flex-col w-full space-y-2">
-              <button className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900">
+              <button onClick={
+                () => { router.push(`/Users/Update/${currentUser?._id}`); }
+              } className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900">
                 Edit Profile
               </button>
               <button

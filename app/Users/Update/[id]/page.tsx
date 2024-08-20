@@ -145,7 +145,7 @@ const UpdateUserForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        router.push("/profile");
+        router.push("/Dashboard");
       } else {
         const backendErrors: ErrorsProps = {};
         data.errors.forEach((error: { field: string; message: string }) => {
