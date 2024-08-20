@@ -2,16 +2,16 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({ currentUser: {}, isAuthenticated: false , handleLogout: () => {} });
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("Checking token");
+    // console.log("Checking token");
     if (token) {
       fetch('http://localhost:3300/api/auth/check', {
         method: 'GET',
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, handleLogout, currentUser }}>
+    <AuthContext.Provider value={{currentUser, isAuthenticated, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,5 +1,3 @@
-
-
 export async function fetchEvents() {
     const res = await fetch('http://localhost:3300/api/events', {
       method: 'GET',
@@ -84,4 +82,30 @@ export async function getAttendees(token: any) {
     if (!response.ok) { console.log('Failed to fetch attendees'); }
     const res = response.json()
     return res;
+  }
+
+export async function deleteEvent(token: any, id: string) {
+    const response = await fetch(`http://localhost:3300/api/events/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token.value}`,
+          'Content-Type': 'application/json',
+        }
+      });
+    if (!response.ok) { console.log('Failed to delete event'); }
+    return response;
+  }
+
+export async function unRegisterEvent(token: any, id: string) {
+    const response = await fetch(`http://localhost:3300/api/events/${id}/unregister`,
+      {
+        method: 'DeLETE',
+        headers: {
+          'Authorization': `Bearer ${token.value}`,
+          'Content-Type': 'application/json',
+        }
+      });
+    if (!response.ok) { console.log('Failed to delete event'); }
+    return response;
   }

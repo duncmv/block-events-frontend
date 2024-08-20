@@ -8,7 +8,7 @@ import { getMyEvents, getRegisteredEvents } from '../utils/api';
 
 const ITEMS_PER_PAGE = 6;
 
-const Dashboard = async ({ searchParams }) => {
+const Dashboard = async ({ searchParams }: { searchParams: Record<string, string> }) => {
   const token = cookies().get('jwt');
 
   if (!token || token.value === 'loggedout') {
@@ -40,17 +40,17 @@ const Dashboard = async ({ searchParams }) => {
       {/* Main Content Area */}
       <main className="flex-1 p-4 mb-4 flex flex-col">
         <div className="flex-1 bg-white border border-gray-300 rounded-lg p-4 flex flex-col">
-            <TableOne
-              events={paginatedEvents}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              currentTab={currentTab}
-            />
+          <TableOne
+            events={paginatedEvents}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            currentTab={currentTab}
+          />
         </div>
       </main>
 
       {/* Right Sidebar (Notification Sidebar) */}
-      <aside className="w-64 bg-gray-100 p-2 shadow-lg">
+      <aside id="notification-sidebar" className="w-64 bg-gray-100 p-2 shadow-lg">
         <NotificationSidebar />
       </aside>
     </div>

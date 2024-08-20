@@ -1,9 +1,19 @@
-// components/NotificationSidebar.tsx
+"use client";
 import React from 'react';
 
 const NotificationSidebar: React.FC = () => {
+
     return (
         <aside className="w-full bg-white p-4 mr-7 mt-2 shadow-md rounded border border-gray-300">
+            <button
+                className='btn btn-accent text-white p-2 m-4'
+                onClick={() => {
+                    const sidebar = document.getElementById('notification-sidebar');
+                    if (sidebar) {
+                        sidebar.classList.toggle('hidden');
+                    }
+                }}
+            >Show / Hide</button>
             <h4 className="text-lg font-semibold mb-4">Notifications</h4>
             <ul>
                 {/* Example notifications */}
