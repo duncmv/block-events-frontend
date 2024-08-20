@@ -11,28 +11,28 @@ import { DialogModal } from './DialogModal';
 import { unRegisterEvent } from '../utils/api';
 
 interface Event {
-    _id: string;
-    title: string;
-    description: string;
-    startDateTime: string;
-    endDateTime?: string;
-    location: string;
-    media: string[];
-    category: string;
-    organizer: {
-        name: string;
-        phone: string;
-        email: string;
-    };
-    attendees: string[];
-    status: string;
+  _id: string;
+  title: string;
+  description: string;
+  startDateTime: string;
+  endDateTime?: string;
+  location: string;
+  media: string[];
+  category: string;
+  organizer: {
+    name: string;
+    phone: string;
+    email: string;
+  };
+  attendees: string[];
+  status: string;
 }
 
 interface TableProps {
-    events: Event[];
-    currentPage: number;
-    totalPages: number;
-    currentTab: string;
+  events: Event[];
+  currentPage: number;
+  totalPages: number;
+  currentTab: string;
 }
 
 const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, currentTab }) => {

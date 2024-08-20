@@ -27,10 +27,10 @@ interface Event {
     state: string;
     zip_code?: string;
     googleMapsLink?: string;
-  media: {
-    pictures: string[];
-    videos: string[];
-  }
+    media: {
+      pictures: string[];
+      videos: string[];
+    };
   };
   category: string;
 }
@@ -78,7 +78,7 @@ const SearchAndFilter = ({
   };
 
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center m-4 px-4 space-y-4 md:space-y-0 md:space-x-4">
+    <div className="flex flex-col md:flex-row justify-between items-center  w-full m-4 px-4 space-y-4 md:space-y-0 md:space-x-4">
       <input
         type="search"
         value={searchTerm}

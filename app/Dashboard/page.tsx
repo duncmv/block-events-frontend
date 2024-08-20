@@ -1,28 +1,30 @@
-import React from 'react';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import Sidebar from '../components/Sidebar';
-import TableOne from '../components/TableOne';
-import NotificationSidebar from '../components/NotificationSidebar';
-import { getMyEvents, getRegisteredEvents } from '../utils/api';
+import React from "react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import Sidebar from "../components/Sidebar";
+import TableOne from "../components/TableOne";
+import NotificationSidebar from "../components/NotificationSidebar";
+import { getMyEvents, getRegisteredEvents } from "../utils/api";
 
 const ITEMS_PER_PAGE = 6;
 
 const Dashboard = async ({ searchParams }: { searchParams: Record<string, string> }) => {
   const token = cookies().get('jwt');
 
-  if (!token || token.value === 'loggedout') {
-    redirect('/Login');
+  if (!token || token.value === "loggedout") {
+    redirect("/Login");
   }
 
   const myEvents = await getMyEvents(token);
   const registeredEvents = await getRegisteredEvents(token);
 
-  const currentTab = searchParams.tab || 'myEvents';
+  const currentTab = searchParams.tab || "myEvents";
   const currentPage = parseInt(searchParams.page) || 1;
 
   const displayedEvents =
-    currentTab === 'myEvents' ? myEvents.myEvents : registeredEvents.userRegisteredEvents;
+    currentTab === "myEvents"
+      ? myEvents.myEvents
+      : registeredEvents.userRegisteredEvents;
 
   const totalPages = Math.ceil(displayedEvents.length / ITEMS_PER_PAGE);
   const paginatedEvents = displayedEvents.slice(
@@ -31,34 +33,35 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
   );
 
   return (
-    <div className="flex h-screen">
-      {/* Left Sidebar */}
-      <aside className="w-64 bg-gray-100 p-4 shadow-md">
-        <Sidebar currentTab={currentTab} />
-      </aside>
-
+    <div className="flex flex-col h-full">
       {/* Main Content Area */}
-      <main className="flex-1 p-4 mb-4 flex flex-col">
-        <div className="flex-1 bg-white border border-gray-300 rounded-lg p-4 flex flex-col">
+      <div className="flex-1 flex flex-row items-stretch px-4 py-2">
+        {/* Left Sidebar */}
+        <div className="w-64 flex-shrink-0 bg-white p-4 shadow-md border border-gray-300 rounded-lg">
+          <Sidebar currentTab={currentTab} />
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 p-4 mx-4 bg-white border shadow-md border-gray-300 rounded-lg">
           <TableOne
             events={paginatedEvents}
             currentPage={currentPage}
             totalPages={totalPages}
             currentTab={currentTab}
           />
-        </div>
-      </main>
+        </main>
 
-      {/* Right Sidebar (Notification Sidebar) */}
-      <aside id="notification-sidebar" className="w-64 bg-gray-100 p-2 shadow-lg">
-        <NotificationSidebar />
-      </aside>
+        {/* Right Sidebar (Notification Sidebar) */}
+        <div className="w-64 flex-shrink-0 bg-white p-4 shadow-md border border-gray-300 rounded-lg">
+          <NotificationSidebar />
+        </div>
+      </div>
     </div>
   );
 };
 
 export async function generateStaticParams() {
-  return [{ tab: 'myEvents' }, { tab: 'registeredEvents' }];
+  return [{ tab: "myEvents" }, { tab: "registeredEvents" }];
 }
 
 export default Dashboard;
