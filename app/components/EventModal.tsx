@@ -49,7 +49,7 @@ const EventModal = ({ event, register, setRegister }: any) => {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="size-6 mr-2"
+                  className="size-6 mr-2 text-red-900"
                 >
                   <path
                     strokeLinecap="round"
@@ -71,7 +71,7 @@ const EventModal = ({ event, register, setRegister }: any) => {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="size-6 mr-2"
+                  className="size-6 mr-2 text-red-900"
                 >
                   <path
                     strokeLinecap="round"

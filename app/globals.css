@@ -12,7 +12,9 @@
   }
 } */
 
+
 body {
   color: rgb(var(--foreground-rgb));
   padding: 1rem;
+  background-color: #ff5e5e0d;
 }
