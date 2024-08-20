@@ -1,19 +1,19 @@
 "use client";
-import React, { useContext, useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { AuthContext } from '../../context/AuthContext'
+import React, { useContext, useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "../../context/AuthContext";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated }: any = useContext(AuthContext);
   const router = useRouter();
 
   //useEffect(() => {
   //  const token = localStorage.getItem('token'); // or use cookies.get('jwt')
-//
+  //
   //  if (token) {
   //    // Optionally, verify the token by making a request to the backend
   //    fetch('http://localhost:3300/api/auth/check', {
@@ -36,7 +36,6 @@ const Header: React.FC = () => {
   //  }
   //}, [router]);
 
-  
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -47,7 +46,7 @@ const Header: React.FC = () => {
   //      method: 'POST',
   //      credentials: 'include',
   //    });
-//
+  //
   //    if (response.ok) {
   //      localStorage.removeItem('token');
   //      setIsAuthenticated(false);
@@ -60,31 +59,45 @@ const Header: React.FC = () => {
   //  }
   //};
 
-
   return (
-    <header className="flex items-center justify-between h-16 px-4 md:px-6 bg-white border-b relative">
+    <header className="flex items-center justify-between h-16 px-4 md:px-6 bg-white border-rounded shadow-sm relative">
       <Link href="/">
         <Image src="/logo.png" alt="logo" width={150} height={200} />
       </Link>
       <nav className="hidden md:flex justify-end space-x-4">
-        {isAuthenticated && localStorage.getItem('token') && (
-          <Link href="/Dashboard" className="px-4 py-2 hover:text-red-900 font-medium">
+        {isAuthenticated && localStorage.getItem("token") && (
+          <Link
+            href="/Dashboard"
+            className="px-4 py-2 hover:text-red-900 font-medium"
+          >
             Dashboard
           </Link>
         )}
-        <Link href="/Events" className="px-4 py-2 hover:text-red-900 font-medium">
+        <Link
+          href="/Events"
+          className="px-4 py-2 hover:text-red-900 font-medium"
+        >
           Events
         </Link>
-        <Link href="/Services" className="px-4 py-2 hover:text-red-900 font-medium">
+        <Link
+          href="/Services"
+          className="px-4 py-2 hover:text-red-900 font-medium"
+        >
           Services
         </Link>
-        <Link href="/About" className="px-4 py-2 hover:text-red-900 font-medium">
+        <Link
+          href="/About"
+          className="px-4 py-2 hover:text-red-900 font-medium"
+        >
           About Us
         </Link>
         {!isAuthenticated && (
-        <Link href="/Login" className="px-4 py-2 hover:text-red-900 font-medium">
-          Sign In
-        </Link>
+          <Link
+            href="/Login"
+            className="px-4 py-2 hover:text-red-900 font-medium"
+          >
+            Sign In
+          </Link>
         )}
       </nav>
       {/* Hamburger Menu Icon for small screens */}
@@ -110,12 +123,15 @@ const Header: React.FC = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <nav className="md:hidden flex flex-col absolute top-20 right-4 bg-white w-56 max-h-64 border rounded-lg space-y-2 p-4 z-50 shadow-lg">
-          {isAuthenticated && localStorage.getItem('token') && (
-          <>
-            <Link href="/Dashboard" className="px-4 py-2 hover:text-red-900 font-medium">
-              Dashboard
-            </Link>
-          </>
+          {isAuthenticated && localStorage.getItem("token") && (
+            <>
+              <Link
+                href="/Dashboard"
+                className="px-4 py-2 hover:text-red-900 font-medium"
+              >
+                Dashboard
+              </Link>
+            </>
           )}
           <Link
             href="/Events"
@@ -136,7 +152,10 @@ const Header: React.FC = () => {
             About Us
           </Link>
           {!isAuthenticated && (
-            <Link href="/Login" className="px-4 py-2 hover:text-red-900 font-medium">
+            <Link
+              href="/Login"
+              className="px-4 py-2 hover:text-red-900 font-medium"
+            >
               Sign In
             </Link>
           )}
