@@ -76,7 +76,7 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
             </div>
             <div className="flex flex-col items-center justify-center mb-4">
               <p className="text-lg font-bold">
-                {currentUser?.username || "John Doe"}
+                {currentUser?.userName || "John Doe"}
               </p>
               <p className="text-xs">
                 {currentUser?.email || "john.doe@example.com"}

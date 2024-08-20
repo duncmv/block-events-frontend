@@ -2,37 +2,38 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
-import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
+// import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { useRouter } from 'next/navigation';
 import { Tooltip } from '@mui/material';
 import { DialogModal } from './DialogModal';
 import { unRegisterEvent } from '../utils/api';
 
 interface Event {
-  _id: string;
-  title: string;
-  description: string;
-  startDateTime: string;
-  endDateTime?: string;
-  location: string;
-  media: string[];
-  category: string;
-  organizer: {
-    name: string;
-    phone: string;
-    email: string;
-  };
-  attendees: string[];
-  status: string;
+    _id: string;
+    title: string;
+    description: string;
+    startDateTime: string;
+    endDateTime?: string;
+    location: string;
+    media: string[];
+    category: string;
+    organizer: {
+        name: string;
+        phone: string;
+        email: string;
+    };
+    attendees: string[];
+    status: string;
 }
 
 interface TableProps {
-  events: Event[];
-  currentPage: number;
-  totalPages: number;
-  currentTab: string;
+    events: Event[];
+    currentPage: number;
+    totalPages: number;
+    currentTab: string;
 }
 
 const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, currentTab }) => {
@@ -143,13 +144,14 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                         <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
                             <div className='flex p-2'>
                                 {tabName === 'My Events' ? (
-                                    <Tooltip title="Edit"><EditIcon onClick={() => handleEdit(event)}
+                                    <Tooltip title="Edit"><EditIcon className='hover:text-red-900'
+                                        onClick={() => handleEdit(event)}
                                         style={{ cursor: 'pointer' }}
                                     />
                                     </Tooltip>
                                 ) : (
                                     <Tooltip title="View">
-                                        <VisibilityIcon
+                                        <VisibilityIcon className='hover:text-red-900'
                                             onClick={() => { handleView(event) }
                                             }
                                             style={{ cursor: 'pointer' }}
@@ -160,7 +162,7 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                             <div className='flex p-2'>
                                 {tabName === 'My Events' ? (
                                     <Tooltip title="Delete">
-                                        <DeleteIcon
+                                        <DeleteIcon className='hover:text-red-900'
                                             onClick={() => {
                                                 const modal: HTMLElement | null = document.getElementById(event._id);
                                                 if (modal instanceof HTMLDialogElement) { modal.showModal() }
@@ -170,7 +172,7 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                                     </Tooltip>
                                 ) : (
                                     <Tooltip title="Unregister">
-                                        <BookmarkRemoveIcon
+                                        <PersonRemoveIcon className='hover:text-red-900'
                                             onClick={() => {
                                                 const modal: HTMLElement | null = document.getElementById(event._id);
                                                 if (modal instanceof HTMLDialogElement) { modal.showModal() }
@@ -181,7 +183,7 @@ const TableOne: React.FC<TableProps> = ({ events, currentPage, totalPages, curre
                                 )}
                             </div>
                         </div>
-                        <DialogModal token={token} event={event} tabName={tabName} isDeleted={isDeleted} setIsDeleted={setIsDeleted} isUnregistered={isUnregistered} setIsUnregistered={setIsUnregistered}/>
+                        <DialogModal token={token} event={event} tabName={tabName} isDeleted={isDeleted} setIsDeleted={setIsDeleted} isUnregistered={isUnregistered} setIsUnregistered={setIsUnregistered} />
                     </div>
                 )) || <p>No events found</p>}
             </div>
