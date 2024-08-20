@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import TableOne from "../components/TableOne";
 import NotificationSidebar from "../components/NotificationSidebar";
 import { getMyEvents, getRegisteredEvents } from "../utils/api";
+import EllipsisMenu from "../components/EllipsisMenu";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -37,8 +38,12 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
       {/* Main Content Area */}
       <div className="flex-1 flex flex-row items-stretch px-4 py-2">
         {/* Left Sidebar */}
-        <div className="w-64 flex-shrink-0 bg-white p-4 shadow-md border border-gray-300 rounded-lg">
+        <div className="w-64 flex-shrink-0 bg-white p-4 shadow-md border border-gray-300 rounded-lg hidden custom-sidebar">
           <Sidebar currentTab={currentTab} />
+        </div>
+
+        <div className="block custom-ellipsis">
+          <EllipsisMenu currentTab={currentTab} />
         </div>
 
         {/* Main Content */}
@@ -51,10 +56,10 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
           />
         </main>
 
-        {/* Right Sidebar (Notification Sidebar) */}
+        {/* Right Sidebar (Notification Sidebar)
         <div className="w-64 flex-shrink-0 bg-white p-4 shadow-md border border-gray-300 rounded-lg">
           <NotificationSidebar />
-        </div>
+        </div>*/}
       </div>
     </div>
   );
