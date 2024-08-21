@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 interface EventFormData {
   title: string;
@@ -36,17 +36,17 @@ interface ErrorsProps {
 
 const CreateEventForm: React.FC = () => {
   const [formData, setFormData] = useState<EventFormData>({
-    title: '',
-    description: '',
-    location: '',
-    organizerName: '',
-    organizerEmail: '',
-    organizerAddress: '',
-    startDateTime: '',
-    endDateTime: '',
-    category: '',
-    status: '',
-    tags: '',
+    title: "",
+    description: "",
+    location: "",
+    organizerName: "",
+    organizerEmail: "",
+    organizerAddress: "",
+    startDateTime: "",
+    endDateTime: "",
+    category: "",
+    status: "",
+    tags: "",
     media: null,
   });
 
@@ -56,7 +56,11 @@ const CreateEventForm: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null); // Ref for file input
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -70,7 +74,7 @@ const CreateEventForm: React.FC = () => {
       ...prevState,
       media: file,
     }));
-  
+
     // Update preview image
     if (file) {
       setPreviews([URL.createObjectURL(file)]);
@@ -78,7 +82,6 @@ const CreateEventForm: React.FC = () => {
       setPreviews([]);
     }
   };
-  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,24 +89,24 @@ const CreateEventForm: React.FC = () => {
     setLoading(true);
 
     const formDataObj = new FormData();
-  Object.keys(formData).forEach((key) => {
-    const value = formData[key as keyof EventFormData];
+    Object.keys(formData).forEach((key) => {
+      const value = formData[key as keyof EventFormData];
 
-    if (key === 'media' && value) {
-      if (value instanceof File) {
-        formDataObj.append('media', value); // Append the single file
+      if (key === "media" && value) {
+        if (value instanceof File) {
+          formDataObj.append("media", value); // Append the single file
+        }
+      } else if (typeof value === "string") {
+        formDataObj.append(key, value);
       }
-    } else if (typeof value === 'string') {
-      formDataObj.append(key, value);
-    }
-  });
+    });
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const response = await fetch(`http://localhost:3300/api/events`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formDataObj,
       });
@@ -111,7 +114,7 @@ const CreateEventForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        window.location.href = ('/Dashboard');
+        window.location.href = "/Dashboard";
       } else {
         const backendErrors: ErrorsProps = {};
         data.errors.forEach((error: { field: string; message: string }) => {
@@ -123,7 +126,7 @@ const CreateEventForm: React.FC = () => {
     } catch (err) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        serverError: 'An error occurred. Please try again.',
+        serverError: "An error occurred. Please try again.",
       }));
     } finally {
       setLoading(false);
@@ -137,33 +140,51 @@ const CreateEventForm: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-[#8c0327] mb-6">Create Event</h1>
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6" noValidate>
+    <div className="container my-3 mx-auto p-6 md:p-10 bg-white rounded-lg shadow-lg">
+      <h1 className="text-4xl font-bold text-[#8c0327] mb-8 text-center">
+        Create Event
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 gap-8"
+        noValidate
+      >
         {/* Title */}
-        <div className="p-2">
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-lg font-medium text-gray-700"
+          >
+            Event Title
+          </label>
           <input
             type="text"
             id="title"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Event Title"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-            style={{ backgroundColor: '#f6f6f6' }}
+            placeholder="Enter the event title"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           />
-          {errors?.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+          {errors?.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         {/* Category */}
-        <div className="p-2">
+        <div>
+          <label
+            htmlFor="category"
+            className="block text-lg font-medium text-gray-700"
+          >
+            Category
+          </label>
           <select
             id="category"
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-            style={{ backgroundColor: '#f6f6f6' }}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           >
             <option value="">Select a category</option>
             <option value="music">Music</option>
@@ -171,46 +192,53 @@ const CreateEventForm: React.FC = () => {
             <option value="arts">Arts</option>
             <option value="technology">Technology</option>
           </select>
-          {errors?.category && <p className="text-red-500 text-sm">{errors.category}</p>}
+          {errors?.category && (
+            <p className="text-red-500 text-sm mt-1">{errors.category}</p>
+          )}
         </div>
 
         {/* Description and Image Upload */}
-        <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Description */}
           <div>
+            <label
+              htmlFor="description"
+              className="block text-lg font-medium text-gray-700"
+            >
+              Event Description
+            </label>
             <textarea
               id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
-              rows={3}
-              placeholder="Event Description"
-              className="block w-full h-48 rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-              style={{ backgroundColor: '#f6f6f6' }}
+              rows={4}
+              placeholder="Provide a detailed description of the event"
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
-            {errors?.description && <p className="text-red-500 text-sm">{errors.description}</p>}
+            {errors?.description && (
+              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            )}
           </div>
 
           {/* Image Upload */}
           <div>
-            <label
-              htmlFor="image-upload"
-              className="block w-full h-48 border-2 border-dashed border-gray-300 rounded-md cursor-pointer flex flex-col items-center justify-center bg-[#f6f6f6] hover:bg-gray-50"
-            >
+            <label className="block text-lg font-medium text-gray-700">
+              Upload Event Image
+            </label>
+            <div className="mt-1 h-48 border-2 border-dashed border-gray-300 rounded-md cursor-pointer flex flex-col items-center justify-center bg-[#f6f6f6] hover:bg-gray-100 transition-colors">
               <div className="text-center">
-                <div className="mb-2">
-                  <button
-                    type="button"
-                    onClick={openFileDialog}
-                    className="bg-[#8c0327] hover:bg-[#6b0220] text-white rounded-full py-2 px-4"
-                  >
-                    Select from computer
-                  </button>
-                </div>
-                <p className="text-gray-500">or drag photo here</p>
+                <button
+                  type="button"
+                  onClick={openFileDialog}
+                  className="bg-[#8c0327] hover:bg-[#6b0220] text-white rounded-full py-2 px-4"
+                >
+                  Select from computer
+                </button>
+                <p className="text-gray-500 mt-2">or drag photo here</p>
                 <p className="text-gray-500 text-sm mt-1">PNG, JPG, SVG</p>
               </div>
-            </label>
+            </div>
             <input
               id="image-upload"
               name="media"
@@ -220,17 +248,17 @@ const CreateEventForm: React.FC = () => {
               className="sr-only"
               ref={fileInputRef}
             />
-            {errors?.media && <p className="text-red-500 text-sm">{errors.media}</p>}
+            {errors?.media && (
+              <p className="text-red-500 text-sm mt-1">{errors.media}</p>
+            )}
 
             {/* Preview Images */}
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             {previews.length > 0 && (
-              <div className="relative">
+              <div className="mt-4 relative">
                 <img
                   src={previews[0]} // Only show the first preview (which is the only one)
                   alt="Preview"
-                  className="w-full h-auto border border-gray-300 rounded-md"
-                  style={{ objectFit: 'cover', height: '100px' }} // Thumbnail style
+                  className="w-full h-24 border border-gray-300 rounded-md object-cover"
                 />
                 <button
                   type="button"
@@ -238,35 +266,47 @@ const CreateEventForm: React.FC = () => {
                     setPreviews([]); // Clear the preview
                     setFormData((prev) => ({ ...prev, media: null })); // Clear the file
                   }}
-                  className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
+                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
                 >
                   Remove
                 </button>
               </div>
             )}
-            </div>
           </div>
         </div>
 
         {/* Location */}
-        <div className="p-2">
+        <div>
+          <label
+            htmlFor="location"
+            className="block text-lg font-medium text-gray-700"
+          >
+            Location
+          </label>
           <input
             type="text"
             id="location"
             name="location"
             value={formData.location}
             onChange={handleChange}
-            placeholder="Location"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-            style={{ backgroundColor: '#f6f6f6' }}
+            placeholder="Enter the location"
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           />
-          {errors?.location && <p className="text-red-500 text-sm">{errors.location}</p>}
+          {errors?.location && (
+            <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+          )}
         </div>
 
         {/* Organizer Information */}
-        <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Organizer Name */}
           <div>
+            <label
+              htmlFor="organizerName"
+              className="block text-lg font-medium text-gray-700"
+            >
+              Organizer Name
+            </label>
             <input
               type="text"
               id="organizerName"
@@ -274,14 +314,23 @@ const CreateEventForm: React.FC = () => {
               value={formData.organizerName}
               onChange={handleChange}
               placeholder="Organizer Name"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-              style={{ backgroundColor: '#f6f6f6' }}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
-            {errors?.organizerName && <p className="text-red-500 text-sm">{errors.organizerName}</p>}
+            {errors?.organizerName && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.organizerName}
+              </p>
+            )}
           </div>
 
           {/* Organizer Email */}
           <div>
+            <label
+              htmlFor="organizerEmail"
+              className="block text-lg font-medium text-gray-700"
+            >
+              Organizer Email
+            </label>
             <input
               type="email"
               id="organizerEmail"
@@ -289,15 +338,24 @@ const CreateEventForm: React.FC = () => {
               value={formData.organizerEmail}
               onChange={handleChange}
               placeholder="Organizer Email"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-              style={{ backgroundColor: '#f6f6f6' }}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
-            {errors?.organizerEmail && <p className="text-red-500 text-sm">{errors.organizerEmail}</p>}
+            {errors?.organizerEmail && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.organizerEmail}
+              </p>
+            )}
           </div>
         </div>
 
         {/* Organizer Address */}
-        <div className="p-2">
+        <div>
+          <label
+            htmlFor="organizerAddress"
+            className="block text-lg font-medium text-gray-700"
+          >
+            Organizer Address
+          </label>
           <input
             type="text"
             id="organizerAddress"
@@ -305,85 +363,70 @@ const CreateEventForm: React.FC = () => {
             value={formData.organizerAddress}
             onChange={handleChange}
             placeholder="Organizer Address"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-            style={{ backgroundColor: '#f6f6f6' }}
+            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           />
-          {errors?.organizerAddress && <p className="text-red-500 text-sm">{errors.organizerAddress}</p>}
+          {errors?.organizerAddress && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.organizerAddress}
+            </p>
+          )}
         </div>
 
         {/* Start and End DateTime */}
-        <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Start DateTime */}
           <div>
+            <label
+              htmlFor="startDateTime"
+              className="block text-lg font-medium text-gray-700"
+            >
+              Start Date & Time
+            </label>
             <input
               type="datetime-local"
               id="startDateTime"
               name="startDateTime"
               value={formData.startDateTime}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-              style={{ backgroundColor: '#f6f6f6' }}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
-            {errors?.startDate && <p className="text-red-500 text-sm">{errors.startDate}</p>}
+            {errors?.startDateTime && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.startDateTime}
+              </p>
+            )}
           </div>
 
           {/* End DateTime */}
           <div>
+            <label
+              htmlFor="endDateTime"
+              className="block text-lg font-medium text-gray-700"
+            >
+              End Date & Time
+            </label>
             <input
               type="datetime-local"
               id="endDateTime"
               name="endDateTime"
               value={formData.endDateTime}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-              style={{ backgroundColor: '#f6f6f6' }}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
-            {errors?.endDate && <p className="text-red-500 text-sm">{errors.endDate}</p>}
+            {errors?.endDateTime && (
+              <p className="text-red-500 text-sm mt-1">{errors.endDateTime}</p>
+            )}
           </div>
         </div>
 
-        {/* Tags */}
-        <div className="p-2">
-          <input
-            type="text"
-            id="tags"
-            name="tags"
-            value={formData.tags}
-            onChange={handleChange}
-            placeholder="Tags (comma-separated)"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-            style={{ backgroundColor: '#f6f6f6' }}
-          />
-          {errors?.tags && <p className="text-red-500 text-sm">{errors.tags}</p>}
-        </div>
-
-        {/* Status */}
-        <div className="p-2">
-          <select
-            id="status"
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-2"
-            style={{ backgroundColor: '#f6f6f6' }}
-          >
-            <option value="">Select Status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-          {errors?.status && <p className="text-red-500 text-sm">{errors.status}</p>}
-        </div>
-
         {/* Submit Button */}
-        <div className="p-2">
+        <div className="text-center mt-10">
           <button
             type="submit"
-            className={`w-full bg-[#8c0327] hover:bg-[#6b0220] text-white py-2 px-4 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            disabled={loading}
+            className="w-full md:w-auto bg-[#8c0327] hover:bg-[#6b0220] text-white font-bold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
           >
-            {loading ? 'Submitting...' : 'Create Event'}
+            Create Event
           </button>
-          {errors?.serverError && <p className="text-red-500 text-sm mt-2">{errors.serverError}</p>}
         </div>
       </form>
     </div>

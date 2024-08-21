@@ -2,10 +2,13 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const EllipsisMenu = ({ currentTab }: any) => {
   const { currentUser, handleLogout }: any = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const mediaUrl = "http://localhost:3300/media/";
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -27,8 +30,9 @@ const EllipsisMenu = ({ currentTab }: any) => {
               <img
                 className="h-full w-full object-cover rounded-full"
                 src={
-                  currentUser?.avatarUrl ||
-                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  currentUser?.profile?.avatar
+                  ? mediaUrl + currentUser?.profile?.avatar
+                  : "/media/profile.webp"
                 }
                 alt="Avatar"
               />
@@ -68,7 +72,9 @@ const EllipsisMenu = ({ currentTab }: any) => {
               </Link>
             </li>
             <li>
-            <button className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900">
+            <button onClick={() => {
+                  router.push(`/Users/Update/${currentUser?._id}`);
+                }} className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900">
                 Edit Profile
               </button>
             </li>
