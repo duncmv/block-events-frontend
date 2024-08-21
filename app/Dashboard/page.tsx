@@ -53,6 +53,7 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
             currentPage={currentPage}
             totalPages={totalPages}
             currentTab={currentTab}
+            totalEvents={displayedEvents.length}
           />
         </main>
 

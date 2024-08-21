@@ -35,6 +35,7 @@ interface TableProps {
   currentPage: number;
   totalPages: number;
   currentTab: string;
+  totalEvents: number;
 }
 
 const TableOne: React.FC<TableProps> = ({
@@ -42,6 +43,7 @@ const TableOne: React.FC<TableProps> = ({
   currentPage,
   totalPages,
   currentTab,
+  totalEvents
 }) => {
   const [isDeleted, setIsDeleted] = useState(false);
   const [isUnregistered, setIsUnregistered] = useState(false);
@@ -128,27 +130,27 @@ const TableOne: React.FC<TableProps> = ({
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Event
+            <h5 className="font-medium uppercase xsm:text-base">
+              Events (<span className="font-bold text-primary">{totalEvents}</span>)
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="font-medium uppercase xsm:text-base">
               Date
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="font-medium uppercase xsm:text-base">
               Location
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="font-medium uppercase xsm:text-base">
               {tabName === "My Events" ? "No. of Attendees" : "Status"}
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="font-medium uppercase xsm:text-base">
               Action
             </h5>
           </div>

@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 interface UserFormData {
   userName: string;
@@ -32,6 +31,7 @@ interface ErrorsProps {
 
 const UpdateUserForm: React.FC = () => {
   const { id } = useParams(); // Fetch user ID from URL
+  const [isUpdated, setIsUpdated] = useState(false);
   const [formData, setFormData] = useState<UserFormData>({
     userName: "",
     firstName: "",
@@ -54,6 +54,7 @@ const UpdateUserForm: React.FC = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
+
 
         const response = await fetch(`http://localhost:3300/api/users/${id}`, {
           method: "GET",
@@ -145,7 +146,14 @@ const UpdateUserForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        router.push("/Dashboard");
+        setTimeout(() => {
+          setLoading(false);
+          setIsUpdated(true);
+          setTimeout(() => {
+            setIsUpdated(false);
+            router.push("/Dashboard");
+          }, 1500)
+        }, 1500)
       } else {
         const backendErrors: ErrorsProps = {};
         data.errors.forEach((error: { field: string; message: string }) => {
@@ -159,8 +167,6 @@ const UpdateUserForm: React.FC = () => {
         ...prevErrors,
         serverError: "An error occurred. Please try again.",
       }));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -454,6 +460,28 @@ const UpdateUserForm: React.FC = () => {
         {/* Server Error */}
         {errors?.serverError && <p className="text-red-500 text-center">{errors.serverError}</p>}
       </form>
+      {/* Show alert */}
+      {isUpdated && (
+        <div
+          role="alert"
+          className="fixed left-1/2 top-1/2  transform -translate-x-1/2 -translate-y-1/2 z-10 alert alert-success w-80"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Updated profile successfully.</span>
+        </div>
+      )}
     </div>
   );
 };

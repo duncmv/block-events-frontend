@@ -33,8 +33,25 @@ interface ErrorsProps {
   media?: string;
   serverError?: string;
 }
+const categories = [
+  { name: "Select a category" },
+  { name: "Art" },
+  { name: "Business" },
+  { name: "Community" },
+  { name: "Culture" },
+  { name: "Education" },
+  { name: "Fashion" },
+  { name: "Food" },
+  { name: "Health" },
+  { name: "Lifestyle" },
+  { name: "Music" },
+  { name: "Sports" },
+  { name: "Tech" },
+  { name: "Travel" },
+];
 
 const CreateEventForm: React.FC = () => {
+  const [isCreated, setIsCreated] = useState(false);
   const [formData, setFormData] = useState<EventFormData>({
     title: "",
     description: "",
@@ -114,7 +131,16 @@ const CreateEventForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        window.location.href = "/Dashboard";
+        setTimeout(() => {
+          setLoading(false);
+          setIsCreated(true);
+          setTimeout(() => {
+            setIsCreated(false);
+            router.push("/Dashboard");
+            // window.location.href = '/Dashboard';
+          }, 1500)
+        }, 1500)
+        // window.location.href = '/Dashboard';
       } else {
         const backendErrors: ErrorsProps = {};
         data.errors.forEach((error: { field: string; message: string }) => {
@@ -186,11 +212,9 @@ const CreateEventForm: React.FC = () => {
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           >
-            <option value="">Select a category</option>
-            <option value="music">Music</option>
-            <option value="sports">Sports</option>
-            <option value="arts">Arts</option>
-            <option value="technology">Technology</option>
+            {categories.map((category, key) => (
+              <option key={key} value={category.name}>{category.name}</option>
+            ))}
           </select>
           {errors?.category && (
             <p className="text-red-500 text-sm mt-1">{errors.category}</p>
@@ -231,7 +255,7 @@ const CreateEventForm: React.FC = () => {
                 <button
                   type="button"
                   onClick={openFileDialog}
-                  className="bg-[#8c0327] hover:bg-[#6b0220] text-white rounded-full py-2 px-4"
+                  className="bg-[#8c0327] hover:bg-[#6b0220] text-white rounded-full py-2 px-4 hover:scale-105"
                 >
                   Select from computer
                 </button>
@@ -471,11 +495,56 @@ const CreateEventForm: React.FC = () => {
           <button
             type="submit"
             className="w-full md:w-auto bg-[#8c0327] hover:bg-[#6b0220] text-white font-bold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            disabled={loading}
           >
-            Create Event
+            {loading ? (
+              <svg
+                className="animate-spin h-5 w-5 mr-3 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zM2 12a10 10 0 0020 0h-4a6 6 0 01-12 0z"
+                ></path>
+              </svg>
+            ) : (
+              "Update Event"
+            )}
           </button>
         </div>
       </form>
+      {isCreated && (
+        <div
+          role="alert"
+          className="fixed left-1/2 top-1/2  transform -translate-x-1/2 -translate-y-1/2 z-10 alert alert-success w-80"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Updated event successfully.</span>
+        </div>
+      )}
     </div>
   );
 };

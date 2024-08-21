@@ -35,9 +35,26 @@ interface ErrorsProps {
   media?: string;
   serverError?: string;
 }
+const categories = [
+  { name: "Select a category" },
+  { name: "Art" },
+  { name: "Business" },
+  { name: "Community" },
+  { name: "Culture" },
+  { name: "Education" },
+  { name: "Fashion" },
+  { name: "Food" },
+  { name: "Health" },
+  { name: "Lifestyle" },
+  { name: "Music" },
+  { name: "Sports" },
+  { name: "Tech" },
+  { name: "Travel" },
+];
 
 const UpdateEventForm: React.FC = () => {
   const { id } = useParams(); // Fetch event ID from URL
+  const [isUpdated, setIsUpdated] = useState(false);
   const [formData, setFormData] = useState<EventFormData>({
     title: "",
     description: "",
@@ -186,7 +203,16 @@ const UpdateEventForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        window.location.href = "/Dashboard";
+        setTimeout(() => {
+          setLoading(false);
+          setIsUpdated(true);
+          setTimeout(() => {
+            setIsUpdated(false);
+            router.push("/Dashboard");
+            // window.location.href = '/Dashboard';
+          }, 1500)
+        }, 1500)
+        // window.location.href = "/Dashboard";
       } else {
         const backendErrors: ErrorsProps = {};
         data.errors.forEach((error: { field: string; message: string }) => {
@@ -200,8 +226,6 @@ const UpdateEventForm: React.FC = () => {
         ...prevErrors,
         serverError: "An error occurred. Please try again.",
       }));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -258,12 +282,13 @@ const UpdateEventForm: React.FC = () => {
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           >
+            {categories.map((category,key) => (
+              <option key={key} value={category.name}>
+                {category.name}
+              </option>
+            ))}
             <option value="">Select a category</option>
-            <option value="music">Music</option>
-            <option value="sports">Sports</option>
-            <option value="arts">Arts</option>
-            <option value="technology">Technology</option>
-          </select>
+            </select>
           {errors?.category && (
             <p className="text-red-500 text-sm mt-1">{errors.category}</p>
           )}
@@ -529,6 +554,27 @@ const UpdateEventForm: React.FC = () => {
           )}
         </div>
       </form>
+      {isUpdated && (
+        <div
+          role="alert"
+          className="fixed left-1/2 top-1/2  transform -translate-x-1/2 -translate-y-1/2 z-10 alert alert-success w-80"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>Updated event successfully.</span>
+        </div>
+      )}
     </div>
   );
 };
