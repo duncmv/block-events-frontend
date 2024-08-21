@@ -5,10 +5,13 @@ import { fetchEvents } from "../utils/api";
 import EventCard from "../components/EventCard";
 import Link from "next/link";
 
+const ITEMS_PER_PAGE = 8; // Number of items per page
+
 const Events = () => {
   const [allEvents, setAllEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1); // Current page state
 
   useEffect(() => {
     const getEvents = async () => {
@@ -34,8 +37,20 @@ const Events = () => {
     );
   }
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredEvents.length / ITEMS_PER_PAGE);
+  const paginatedEvents = filteredEvents.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Function to handle page change
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div className="flex justify-between  max-h-70">
         <div className="flex md:w-2/3">
           <SearchAndFilter
@@ -51,9 +66,28 @@ const Events = () => {
         </Link>
       </div>
 
-      <div className="mx-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredEvents.map((event: any, key: number) => (
-          <EventCard key={key} event={event} />
+      <div className="flex justify-center items-center m-8">
+        <div className="mx-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+          {paginatedEvents.map((event, key) => (
+            <EventCard key={key} event={event} />
+          ))}
+        </div>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center items-center mt-6 mb-4">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-4 py-2 mx-1 border btn btn-outline ${
+              currentPage === index + 1
+                ? "text-primary"
+                : "text-black-500"
+            }`}
+          >
+            {index + 1}
+          </button>
         ))}
       </div>
     </div>
