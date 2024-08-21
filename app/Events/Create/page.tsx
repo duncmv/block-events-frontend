@@ -254,22 +254,15 @@ const CreateEventForm: React.FC = () => {
 
             {/* Preview Images */}
             {previews.length > 0 && (
-              <div className="mt-4 relative">
-                <img
-                  src={previews[0]} // Only show the first preview (which is the only one)
-                  alt="Preview"
-                  className="w-full h-24 border border-gray-300 rounded-md object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPreviews([]); // Clear the preview
-                    setFormData((prev) => ({ ...prev, media: null })); // Clear the file
-                  }}
-                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
-                >
-                  Remove
-                </button>
+              <div className="mt-4 grid grid-cols-2 gap-4">
+                {previews.map((preview, index) => (
+                  <img
+                    key={index}
+                    src={preview}
+                    alt={`Selected media ${index + 1}`}
+                    className="w-full h-32 object-cover rounded-md object-cover"
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -418,6 +411,60 @@ const CreateEventForm: React.FC = () => {
             )}
           </div>
         </div>
+
+		<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+			{/* Status */}
+			<div>
+				<label
+					htmlFor="status"
+					className="block text-lg font-medium text-gray-700"
+				>
+					Status
+				</label>
+				<select
+					id="status"
+					name="status"
+					value={formData.status}
+					onChange={handleChange}
+					className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
+					style={{ backgroundColor: '#f6f6f6' }}
+				>
+					<option value="">Select Status</option>
+					<option value="active">Active</option>
+					<option value="inactive">Inactive</option>
+				</select>
+				{errors?.status && (
+					<p className="text-red-500 text-sm mt-1">
+					{errors.status}
+					</p>
+				)}
+			</div>
+
+			{/* tags */}
+			<div>
+				<label
+					htmlFor="tags"
+					className="block text-lg font-medium text-gray-700"
+				>
+					Tags
+				</label>
+				<input
+					type="text"
+					id="tags"
+					name="tags"
+					value={formData.tags}
+					onChange={handleChange}
+					placeholder="Tags"
+					className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
+				/>
+				{errors?.tags && (
+					<p className="text-red-500 text-sm mt-1">
+					{errors.tags}
+					</p>
+				)}
+			</div>
+
+		</div>
 
         {/* Submit Button */}
         <div className="text-center mt-10">
