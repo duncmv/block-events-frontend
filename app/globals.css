@@ -36,3 +36,15 @@ body {
     display: none !important;
   }
 }
+
+.btn-round-avatar {
+	width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-avatar {
+	border: 1px solid #dad7d7;
+}
