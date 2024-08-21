@@ -78,7 +78,9 @@ const UpdateUserForm: React.FC = () => {
 
           if (data.user.profile.avatar) {
             setPreviews([`http://localhost:3300/media/${data.user.profile.avatar}`]);
-          }
+          }else{
+			setPreviews([`/media/profile.webp`]);
+		  }
         } else {
           throw new Error("User not found");
         }
@@ -187,7 +189,7 @@ const UpdateUserForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setPreviews([`http://localhost:3300/media/profile.png`]); // Update to default image
+        setPreviews([`/media/profile.webp`]); // Update to default image
       } else {
         setErrors((prevErrors) => ({
           ...prevErrors,
