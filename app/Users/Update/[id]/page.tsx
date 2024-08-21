@@ -352,18 +352,6 @@ const UpdateUserForm: React.FC = () => {
             {errors?.avatar && (
               <p className="text-red-500 text-sm mt-1">{errors.avatar}</p>
             )}
-            {/* {previews.length > 0 && (
-              <div className="mt-4 grid justify-center">
-                {previews.map((preview, index) => (
-                  <img
-                    key={index}
-                    src={preview}
-                    alt={`Selected media ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-md object-cover"
-                  />
-                ))}
-              </div>
-            )} */}
 			{previews.length > 0 && (
             <div className="mt-4 relative">
               {previews.map((preview, index) => (
