@@ -1,4 +1,3 @@
-import { useState, useContext, useEffect } from "react";
 import { registerEvent } from "../utils/api";
 
 interface Event {
@@ -32,16 +31,17 @@ const EventModal = ({ event, register, setRegister }: EventModalProps) => {
     if (register) {
       return;
     }
-    // console.log(event);
-
     const token = localStorage.getItem("token");
 
     if (!token) {
       window.location.href = "/Login";
+    } else {
+      console.log("token: ", token);
     }
     const res = await registerEvent(token, event._id);
-    if (!res.ok) {
-      console.log(res);
+    if (res.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/Login";
     } else {
       setRegister(true);
     }
