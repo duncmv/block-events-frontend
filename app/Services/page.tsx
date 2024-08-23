@@ -33,42 +33,44 @@ const servicesData = [
 
 const Services = () => {
   return (
-    <div className="p-8 my-4">
-      <section className="mb-8">
-        <h1 className="text-3xl font-bold text-red-900 mb-4">Our Services</h1>
-        <p className="text-lg text-gray-700">
-          Welcome to our services page! Here, you can explore the range of
-          services we offer. Each service is detailed below, including
-          descriptions and images to help you understand what we provide. If you
-          have any questions or wish to request a service, feel free to do so
-          using the "Request Service" button.
-        </p>
-      </section>
+    <div className="flex justify-center m-8">
+      <div className="p-8 my-4">
+        <section className="mb-8">
+          <h1 className="text-3xl font-bold text-red-900 mb-4">Our Services</h1>
+          <p className="text-lg text-gray-700">
+            Welcome to our services page! Here, you can explore the range of
+            services we offer. Each service is detailed below, including
+            descriptions and images to help you understand what we provide. If you
+            have any questions or wish to request a service, feel free to do so
+            using the "Request Service" button.
+          </p>
+        </section>
 
-      <div className="space-y-4">
-        {servicesData.map((service, index) => (
-          <div key={index} className="collapse collapse-arrow bg-white">
-            <input type="radio" name="my-accordion-2" />
-            <div className="collapse-title text-xl font-bold text-red-900">
-              {service.title}
-            </div>
-            <div className="collapse-content justify-between items-start">
-              <div className="w-full lg:w-9/12">
-                <p>{service.description}</p>
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-auto max-h-48 my-2 object-cover"
-                />
+        <div className="space-y-4">
+          {servicesData.map((service, index) => (
+            <div key={index} className="collapse collapse-arrow bg-white">
+              <input type="radio" name="my-accordion-2" />
+              <div className="collapse-title text-xl font-bold text-red-900">
+                {service.title}
               </div>
-              <div className="w-full lg:w-3/12 flex items-end">
-                <button className="btn btn-primary text-white rounded">
-                  Request Service
-                </button>
+              <div className="collapse-content justify-between items-start">
+                <div className="w-full lg:w-9/12">
+                  <p>{service.description}</p>
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-auto max-h-48 my-2 object-cover"
+                  />
+                </div>
+                <div className="w-full lg:w-3/12 flex items-end">
+                  <button className="btn btn-primary text-white rounded">
+                    Request Service
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

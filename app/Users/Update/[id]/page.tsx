@@ -46,6 +46,7 @@ const UpdateUserForm: React.FC = () => {
 
   const [errors, setErrors] = useState<ErrorsProps | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [formLoading, setformLoading] = useState<boolean>(true); // For form spinner
   const [previews, setPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
@@ -87,11 +88,21 @@ const UpdateUserForm: React.FC = () => {
         }
       } catch (err) {
         setErrors({ serverError: "An error occurred while fetching user data." });
+      } finally {
+        setformLoading(false);
       }
     };
 
     fetchUser();
   }, [id]);
+
+  if (formLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <span className="loading loading-spinner text-primary loading-lg"></span>
+      </div>
+    );
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -172,7 +183,7 @@ const UpdateUserForm: React.FC = () => {
     }
   };
 
-  const openFileDialog = (e: React.MouseEvent<HTMLDivElement>) => {
+  const openFileDialog = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation(); // Stop propagation to prevent multiple triggers
     if (fileInputRef.current) {
@@ -489,7 +500,7 @@ const UpdateUserForm: React.FC = () => {
                 ></path>
               </svg>
             ) : (
-              "Edit Profile"
+              "Update Profile"
             )}
           </button>
           {errors?.serverError && (

@@ -71,13 +71,15 @@ const UpdateEventForm: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<ErrorsProps | null>(null);
-  const [loading, setLoading] = useState<boolean>(false); // For spinner
+  const [loading, setLoading] = useState<boolean>(false); // For button spinner
+  const [formLoading, setformLoading] = useState<boolean>(true); // For form spinner
   const [previews, setPreviews] = useState<string[]>([]); // For image previews
   const fileInputRef = useRef<HTMLInputElement | null>(null); // Ref for file input
   const router = useRouter();
 
   // Fetch event details by ID
   useEffect(() => {
+    setformLoading(true);
     const fetchEvent = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -110,15 +112,25 @@ const UpdateEventForm: React.FC = () => {
         } else {
           throw new Error("Event not found");
         }
+        setformLoading(false);
       } catch (err) {
         setErrors({
           serverError: "An error occurred while fetching event data.",
         });
+      } finally {
+        setformLoading(false);
       }
     };
-
     fetchEvent();
   }, [id]);
+
+  if (formLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <span className="loading loading-spinner text-primary loading-lg"></span>
+      </div>
+    );
+  }
 
   function formatDateTimeLocal(dateString: string) {
     if (!dateString) return "";
