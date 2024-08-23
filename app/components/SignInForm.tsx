@@ -48,7 +48,7 @@ const LoginForm: React.FC = () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        window.location.href = '/Dashboard';
+        router.back();
       } else {
 		
         const backendErrors: ErrorsProps = {};

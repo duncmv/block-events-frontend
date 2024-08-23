@@ -109,3 +109,26 @@ export async function unRegisterEvent(token: any, id: string) {
     if (!response.ok) { console.log('Failed to delete event'); }
     return response;
   }
+
+export async function checkAuth(token:any) {
+  return fetch('http://localhost:3300/api/auth/check', {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.isAuthenticated) {
+        return true
+        // console.log(currentUser);
+      } else {
+        return false;
+      }
+    })
+    .catch(error => {
+      console.error('Error checking auth:', error);
+      return false;
+    });
+}

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,13 +9,28 @@ const EllipsisMenu = ({ currentTab }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const mediaUrl = "http://localhost:3300/media/";
   const router = useRouter();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Close the menu when clicking outside of it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
   return (
-    <div className="relative z-50">
+    <div className="relative z-50 bg-accent rounded-full w-10 h-10" ref={menuRef}>
       <div className="flex items-center justify-center">
         <button onClick={toggleMenu} className="text-3xl">
           &#x2026; {/* Ellipsis */}
@@ -31,8 +46,8 @@ const EllipsisMenu = ({ currentTab }: any) => {
                 className="h-full w-full object-cover rounded-full"
                 src={
                   currentUser?.profile?.avatar
-                  ? mediaUrl + currentUser?.profile?.avatar
-                  : "/media/profile.webp"
+                    ? mediaUrl + currentUser?.profile?.avatar
+                    : "/media/profile.webp"
                 }
                 alt="Avatar"
               />
@@ -72,9 +87,12 @@ const EllipsisMenu = ({ currentTab }: any) => {
               </Link>
             </li>
             <li>
-            <button onClick={() => {
+              <button
+                onClick={() => {
                   router.push(`/Users/Update/${currentUser?._id}`);
-                }} className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900">
+                }}
+                className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900"
+              >
                 Edit Profile
               </button>
             </li>
