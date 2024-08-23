@@ -8,7 +8,7 @@ const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
 
   return (
-    <div className="bg-gray-100 font-sans leading-normal tracking-normal h-screen flex items-center justify-center">
+    <div className="bg-inherit font-sans leading-normal tracking-normal h-screen flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h1 className="text-2xl font-bold mb-6 text-center">Welcome</h1>
         <div className="flex justify-between mb-4">

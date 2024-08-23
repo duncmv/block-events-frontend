@@ -52,13 +52,13 @@ const Services = () => {
             <div className="collapse-title text-xl font-bold text-red-900">
               {service.title}
             </div>
-            <div className="collapse-content flex flex-col lg:flex-row justify-between items-start">
+            <div className="collapse-content justify-between items-start">
               <div className="w-full lg:w-9/12">
                 <p>{service.description}</p>
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full max-h-48 my-2 object-cover"
+                  className="w-auto max-h-48 my-2 object-cover"
                 />
               </div>
               <div className="w-full lg:w-3/12 flex items-end">
