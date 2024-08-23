@@ -131,12 +131,13 @@ const CreateEventForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
+		console.log('Event created successfully');
         setTimeout(() => {
           setLoading(false);
           setIsCreated(true);
           setTimeout(() => {
             setIsCreated(false);
-            router.push("/Dashboard");
+            router.replace("/Dashboard");
             // window.location.href = '/Dashboard';
           }, 1500)
         }, 1500)
@@ -163,6 +164,10 @@ const CreateEventForm: React.FC = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
+  };
+
+  const handleCancel = () => {
+    window.location.href = "/Events";
   };
 
   return (
@@ -491,10 +496,17 @@ const CreateEventForm: React.FC = () => {
 		</div>
 
         {/* Submit Button */}
-        <div className="text-center mt-10">
+        <div className="flex justify-end space-x-4 mt-8">
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="text-gray-700 hover:bg-gray-200 rounded-full px-6 py-3 shadow"
+          >
+            Cancel
+          </button>
           <button
             type="submit"
-            className="w-full md:w-auto bg-[#8c0327] hover:bg-[#6b0220] text-white font-bold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            className="flex items-center justify-center h-12 bg-[#8c0327] text-white text-base font-medium hover:bg-[#6b0220] rounded-full px-6 shadow"
             disabled={loading}
           >
             {loading ? (
@@ -519,9 +531,12 @@ const CreateEventForm: React.FC = () => {
                 ></path>
               </svg>
             ) : (
-              "Update Event"
+              "Create Event"
             )}
           </button>
+          {errors?.serverError && (
+            <p className="text-red-500 text-sm mt-4">{errors.serverError}</p>
+          )}
         </div>
       </form>
       {isCreated && (
@@ -542,7 +557,7 @@ const CreateEventForm: React.FC = () => {
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>Updated event successfully.</span>
+          <span>Created event successfully.</span>
         </div>
       )}
     </div>

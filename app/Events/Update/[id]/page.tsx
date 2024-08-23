@@ -208,7 +208,7 @@ const UpdateEventForm: React.FC = () => {
           setIsUpdated(true);
           setTimeout(() => {
             setIsUpdated(false);
-            router.push("/Dashboard");
+            router.replace("/Dashboard");
             // window.location.href = '/Dashboard';
           }, 1500)
         }, 1500)
