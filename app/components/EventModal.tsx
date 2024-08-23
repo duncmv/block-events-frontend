@@ -49,13 +49,13 @@ const EventModal = ({ event, register, setRegister }: EventModalProps) => {
 
   return (
     <dialog id={event._id} className="modal">
-      <div className="modal-box p-0 w-full max-w-screen-lg max-h-[90vh] m-6">
+      <div className="modal-box p-0 w-2/3 sm:w-1/2 lg:w-2/3  max-w-screen-lg max-h-[90vh] m-6">
         <div className="hero bg-white flex items-center justify-center">
           <div className="hero-content flex flex-col lg:flex-row-reverse items-center lg:items-start lg:justify-between w-full max-w-screen-lg mx-auto py-8">
-            <figure className="w-full lg:w-1/2 lg:pr-6 mb-6 lg:mb-0">
-              <div className="relative overflow-hidden rounded-lg shadow-lg">
+            <figure className="xl:w-full lg:w-[95%] flex items-center justify-center mb-6 lg:mb-0 ">
+              {/* <div className="relative overflow-hidden rounded-lg shadow-lg"> */}
                 {pics}
-              </div>
+              {/* </div> */}
             </figure>
             <div className="text-center lg:text-left lg:max-w-lg lg:ml-6">
               <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold mb-4">
@@ -102,7 +102,7 @@ const EventModal = ({ event, register, setRegister }: EventModalProps) => {
                 </svg>
                 <p>{"  " + event.organizer.email}</p>
               </div>
-              <div className="py-2 text-gray-800">
+              <div className="py-2 text-left text-gray-800">
                 <p>
                   <strong>From:</strong>{" "}
                   {new Date(event.startDateTime).toLocaleString(undefined, {

@@ -500,13 +500,13 @@ const CreateEventForm: React.FC = () => {
           <button
             type="button"
             onClick={handleCancel}
-            className="text-gray-700 hover:bg-gray-200 rounded-full px-6 py-3 shadow"
+            className="text-gray-700 hover:bg-gray-200 rounded-full px-6 py-3 shadow hover:scale-105"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="flex items-center justify-center h-12 bg-[#8c0327] text-white text-base font-medium hover:bg-[#6b0220] rounded-full px-6 shadow"
+            className="flex items-center justify-center h-12 bg-[#8c0327] text-white text-base font-medium hover:bg-[#6b0220] rounded-full px-6 shadow hover:scale-105"
             disabled={loading}
           >
             {loading ? (

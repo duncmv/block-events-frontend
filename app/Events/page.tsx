@@ -51,19 +51,21 @@ const Events = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex justify-between  max-h-70">
-        <div className="flex md:w-2/3">
+      <div className="flex justify-between max-h-70">
+        <div className="flex w-4/5 pl-9">
           <SearchAndFilter
             events={allEvents}
             setFilteredEvents={setFilteredEvents}
           />
         </div>
+        <div className="flex justify-end">
         <Link
           href={localStorage.getItem("token") ? "/Events/Create" : "/Login"}
-          className="btn btn-primary text-white p-2 m-4"
+          className="btn btn-primary text-white p-2 m-4 hover:scale-105"
         >
           Create Event
         </Link>
+        </div>
       </div>
 
       <div className="flex justify-center items-center m-8">

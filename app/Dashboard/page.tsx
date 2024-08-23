@@ -35,6 +35,11 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
 
   return (
     <div className="flex flex-col h-full">
+      <div>
+        <div className="block custom-ellipsis">
+          <EllipsisMenu currentTab={currentTab} />
+        </div>
+      </div>
       {/* Main Content Area */}
       <div className="flex-1 flex flex-row items-stretch px-4 py-2">
         {/* Left Sidebar */}
@@ -42,9 +47,6 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
           <Sidebar currentTab={currentTab} />
         </div>
 
-        <div className="block custom-ellipsis">
-          <EllipsisMenu currentTab={currentTab} />
-        </div>
 
         {/* Main Content */}
         <main className="flex-1 p-4 mx-4 bg-white border shadow-md border-gray-300 rounded-lg">

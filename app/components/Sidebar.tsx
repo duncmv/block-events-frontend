@@ -48,9 +48,9 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
             <li>
               <Link
                 href={{ pathname: "/Dashboard", query: { tab: "myEvents" } }}
-                className={`w-full p-2 text-left block rounded-lg ${
+                className={`w-full p-2 text-left block rounded-lg hover:scale-105 ${
                   currentTab === "myEvents"
-                    ? "bg-red-900 text-white"
+                    ? "bg-primary text-white"
                     : "bg-gray-200 text-red-900"
                 }`}
               >
@@ -63,9 +63,9 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
                   pathname: "/Dashboard",
                   query: { tab: "registeredEvents" },
                 }}
-                className={`w-full p-2 text-left block rounded-lg ${
+                className={`w-full p-2 text-left block rounded-lg hover:scale-105 ${
                   currentTab === "registeredEvents"
-                    ? "bg-red-900 text-white"
+                    ? "bg-primary text-white"
                     : "bg-gray-200 text-red-900"
                 }`}
               >
@@ -95,13 +95,13 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
                 onClick={() => {
                   router.push(`/Users/Update/${currentUser?._id}`);
                 }}
-                className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900 hover:bg-gray-500"
+                className="w-full p-2 text-center block rounded-lg bg-gray-200 text-red-900 hover:bg-primary hover:text-white hover:scale-105"
               >
                 Edit Profile
               </button>
               <button
                 onClick={handleLogout}
-                className="w-full p-2 flex items-center justify-center space-x-2 rounded-lg bg-gray-200 text-red-900 hover:bg-gray-500"
+                className="w-full p-2 flex items-center justify-center space-x-2 rounded-lg bg-gray-200 text-red-900 hover:bg-primary hover:text-white hover:scale-105"
               >
                 <span>Sign Out </span>
                 <svg
