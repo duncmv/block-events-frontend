@@ -52,7 +52,7 @@ const Events = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex justify-between max-h-70">
-        <div className="flex w-4/5 pl-9">
+        <div className="flex md:w-4/5 md:pl-9">
           <SearchAndFilter
             events={allEvents}
             setFilteredEvents={setFilteredEvents}
@@ -68,8 +68,8 @@ const Events = () => {
         </div>
       </div>
 
-      <div className="flex justify-center items-center m-8">
-        <div className="mx-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+      <div className="flex justify-center items-center md:m-8">
+        <div className="mx-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {paginatedEvents.map((event, key) => (
             <EventCard key={key} event={event} />
           ))}

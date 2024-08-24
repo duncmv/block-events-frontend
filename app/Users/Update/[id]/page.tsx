@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { AuthContext } from "@/context/AuthContext";
 
 interface UserFormData {
   userName: string;
@@ -49,9 +50,13 @@ const UpdateUserForm: React.FC = () => {
   const [formLoading, setformLoading] = useState<boolean>(true); // For form spinner
   const [previews, setPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { isAuthenticated } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      router.push("/Login");
+    }
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -80,9 +85,9 @@ const UpdateUserForm: React.FC = () => {
 
           if (data.user.profile.avatar) {
             setPreviews([`http://localhost:3300/media/${data.user.profile.avatar}`]);
-          }else{
-			setPreviews([`/media/profile.webp`]);
-		  }
+          } else {
+            setPreviews([`/media/profile.webp`]);
+          }
         } else {
           throw new Error("User not found");
         }
@@ -233,7 +238,7 @@ const UpdateUserForm: React.FC = () => {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6" noValidate>
         {/* Username */}
         <div className="p-2">
-		<label
+          <label
             htmlFor="title"
             className="block text-lg font-medium text-gray-700"
           >
@@ -255,7 +260,7 @@ const UpdateUserForm: React.FC = () => {
         {/* First and Last Name */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-		  <label
+            <label
               htmlFor="firstName"
               className="block text-lg font-medium text-gray-700"
             >
@@ -274,7 +279,7 @@ const UpdateUserForm: React.FC = () => {
             {errors?.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
           </div>
           <div>
-		  <label
+            <label
               htmlFor="lastName"
               className="block text-lg font-medium text-gray-700"
             >
@@ -296,12 +301,12 @@ const UpdateUserForm: React.FC = () => {
 
         {/* Email */}
         <div className="p-2">
-		<label
-              htmlFor="email"
-              className="block text-lg font-medium text-gray-700"
-            >
-              Email
-            </label>
+          <label
+            htmlFor="email"
+            className="block text-lg font-medium text-gray-700"
+          >
+            Email
+          </label>
           <input
             type="email"
             id="email"
@@ -315,14 +320,14 @@ const UpdateUserForm: React.FC = () => {
           {errors?.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
 
-        
 
 
-		{/* bio and Image Upload */}
+
+        {/* bio and Image Upload */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* bio */}
           <div>
-		  <label
+            <label
               htmlFor="bio"
               className="block text-lg font-medium text-gray-700"
             >
@@ -344,7 +349,7 @@ const UpdateUserForm: React.FC = () => {
 
           {/* Image Upload */}
           <div>
-		  <label className="block text-lg font-medium text-gray-700 mb-2">
+            <label className="block text-lg font-medium text-gray-700 mb-2">
               User avatar
             </label>
             <label
@@ -375,34 +380,34 @@ const UpdateUserForm: React.FC = () => {
             {errors?.avatar && (
               <p className="text-red-500 text-sm mt-1">{errors.avatar}</p>
             )}
-			{previews.length > 0 && (
-            <div className="mt-4 relative">
-              {previews.map((preview, index) => (
-                <div key={index} className="relative inline-block">
-                  <img
-                    src={preview}
-                    alt={`Selected media ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-md  btn-avatar"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleDeleteAvatar}
-                    className="absolute top-0 right-0 btn-round-avatar bg-red-500 text-white rounded-full"
-                    aria-label="Remove Image"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+            {previews.length > 0 && (
+              <div className="mt-4 relative">
+                {previews.map((preview, index) => (
+                  <div key={index} className="relative inline-block">
+                    <img
+                      src={preview}
+                      alt={`Selected media ${index + 1}`}
+                      className="w-full h-32 object-cover rounded-md  btn-avatar"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleDeleteAvatar}
+                      className="absolute top-0 right-0 btn-round-avatar bg-red-500 text-white rounded-full"
+                      aria-label="Remove Image"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
 
         {/* Current Password */}
         <div className="p-2">
-		<label
+          <label
             htmlFor="currentPassword"
             className="block text-lg font-medium text-gray-700"
           >
@@ -423,7 +428,7 @@ const UpdateUserForm: React.FC = () => {
 
         {/* New Password */}
         <div className="p-2">
-		<label
+          <label
             htmlFor="newPassword"
             className="block text-lg font-medium text-gray-700"
           >
@@ -444,7 +449,7 @@ const UpdateUserForm: React.FC = () => {
 
         {/* Confirm New Password */}
         <div className="p-2">
-		<label
+          <label
             htmlFor="confirmPassword"
             className="block text-lg font-medium text-gray-700"
           >
@@ -464,8 +469,8 @@ const UpdateUserForm: React.FC = () => {
         </div>
 
         {/* Submit Button */}
-        
-		<div className="flex justify-end space-x-4 mt-8">
+
+        <div className="flex justify-end space-x-4 mt-8">
           <button
             type="button"
             onClick={handleCancel}

@@ -1,4 +1,5 @@
 import { registerEvent } from "../utils/api";
+import { useRouter } from "next/navigation";
 
 interface Event {
   _id: string;
@@ -26,6 +27,7 @@ const EventModal = ({ event, register, setRegister }: EventModalProps) => {
   const mediaUrl = 'http://localhost:3300/media/';
   const pics = <img src={mediaUrl + event.media} alt="Event Image" />
 
+  const router = useRouter();
   const handleRegister = async () => {
     // console.log("register: ", register);
     if (register) {
@@ -35,13 +37,11 @@ const EventModal = ({ event, register, setRegister }: EventModalProps) => {
 
     if (!token) {
       window.location.href = "/Login";
-    } else {
-      console.log("token: ", token);
     }
     const res = await registerEvent(token, event._id);
     if (res.status === 401) {
       localStorage.removeItem("token");
-      window.location.href = "/Login";
+      router.push("/Login");
     } else {
       setRegister(true);
     }

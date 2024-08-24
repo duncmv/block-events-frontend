@@ -75,7 +75,7 @@ const TableOne: React.FC<TableProps> = ({
   };
 
   return (
-    <div className="rounded-sm border border-stroke bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white p-2 lg:p-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       {/* Alerts */}
       {isDeleted && (
         <div
@@ -122,7 +122,7 @@ const TableOne: React.FC<TableProps> = ({
       {/* Table Title */}
       <h4 className="mb-6 text-xl font-semibold text-black">{tabName}</h4>
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
+        <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl grid grid-cols-3 sm:grid-cols-5 border-b border-stroke dark:border-strokedark">
           <div className="p-2.5 xl:p-5">
             <h5 className="font-medium uppercase text-sm md:text-base">
               Events (<span className="font-bold text-primary">{totalEvents}</span>)
@@ -151,14 +151,80 @@ const TableOne: React.FC<TableProps> = ({
         </div>
         {events.map((event, key) => (
           <div
-            className={`grid grid-cols-3 sm:grid-cols-5 ${key === events.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
+            className={`text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl grid grid-cols-3 sm:grid-cols-5 ${key === events.length - 1
+              ? ""
+              : "border-b border-stroke dark:border-strokedark"
               }`}
             key={event._id}
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <p className="text-black">{event.title}</p>
+              <div className="grid">
+                <p className="text-black">{event.title}</p>
+                <div className="sm:hidden md:hidden lg:hidden xl:hidden md:block md:mt-1">
+                  <p className="text-black"><span className="text-primary">(
+                    {tabName === "My Events"
+                      ? event?.attendees?.length
+                      : event?.status || "N/A"})</span>
+                  </p>
+                  <div className="flex">
+                    <div className="flex-1 p-1">
+                      {tabName === "My Events" ? (
+                        <Tooltip title="Edit">
+                          <EditIcon
+                            className="hover:text-red-900"
+                            onClick={() => handleEdit(event)}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="View">
+                          <VisibilityIcon
+                            className="hover:text-red-900"
+                            onClick={() => {
+                              const modal = document.getElementById(event._id);
+                              if (modal instanceof HTMLDialogElement) {
+                                modal.showModal();
+                              }
+                            }}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </Tooltip>
+                      )}
+                    </div>
+                    <div className="flex-1 p-1">
+                      {tabName === "My Events" ? (
+                        <Tooltip title="Delete">
+                          <DeleteIcon
+                            className="hover:text-red-900"
+                            onClick={() => {
+                              const modal: HTMLElement | null =
+                                document.getElementById(event._id + "dialog");
+                              if (modal instanceof HTMLDialogElement) {
+                                modal.showModal();
+                              }
+                            }}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="Unregister">
+                          <PersonRemoveIcon
+                            className="hover:text-red-900"
+                            onClick={() => {
+                              const modal: HTMLElement | null =
+                                document.getElementById(event._id + "dialog");
+                              if (modal instanceof HTMLDialogElement) {
+                                modal.showModal();
+                              }
+                            }}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </Tooltip>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="flex items-center  p-2.5 xl:p-5">
               <p className="text-black">{formatDate(event.startDateTime)}</p>

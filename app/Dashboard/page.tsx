@@ -41,7 +41,7 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
         </div>
       </div>
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-row items-stretch px-4 py-2">
+      <div className="flex-1 flex flex-row items-stretch lg:px-4 py-2">
         {/* Left Sidebar */}
         <div className="w-64 flex-shrink-0 bg-white p-4 shadow-md border border-gray-300 rounded-lg hidden custom-sidebar">
           <Sidebar currentTab={currentTab} />
@@ -49,7 +49,7 @@ const Dashboard = async ({ searchParams }: { searchParams: Record<string, string
 
 
         {/* Main Content */}
-        <main className="flex-1 p-4 mx-4 bg-white border shadow-md border-gray-300 rounded-lg">
+        <main className="flex-1 lg:p-4 lg:mx-4 bg-white border shadow-md border-gray-300 rounded-lg">
           <TableOne
             events={paginatedEvents}
             currentPage={currentPage}

@@ -30,9 +30,13 @@ const EllipsisMenu = ({ currentTab }: any) => {
   }, [menuRef]);
 
   return (
-    <div className="relative z-50 bg-accent rounded-full w-10 h-10" ref={menuRef}>
-      <div className="flex items-center justify-center">
-        <button onClick={toggleMenu} className="text-3xl">
+    <div className="relative z-50" ref={menuRef}>
+      <div className="flex items-center justify-start">
+        <button onClick={toggleMenu} className="text-3xl bg-accent rounded-full w-10 h-10">
+          {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8 bg-primary rounded-full">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg> */}
+
           &#x2026; {/* Ellipsis */}
         </button>
       </div>
@@ -62,11 +66,10 @@ const EllipsisMenu = ({ currentTab }: any) => {
             <li>
               <Link
                 href={{ pathname: "/Dashboard", query: { tab: "myEvents" } }}
-                className={`block px-4 py-2 rounded text-sm ${
-                  currentTab === "myEvents"
-                    ? "bg-red-900 text-white"
-                    : "text-gray-900"
-                }`}
+                className={`block px-4 py-2 rounded text-center hover:scale-105 ${currentTab === "myEvents"
+                    ? "bg-primary text-white"
+                    : "bg-gray-200 text-red-900"
+                  }`}
               >
                 My Events
               </Link>
@@ -77,11 +80,10 @@ const EllipsisMenu = ({ currentTab }: any) => {
                   pathname: "/Dashboard",
                   query: { tab: "registeredEvents" },
                 }}
-                className={`block px-4 rounded py-2 text-sm ${
-                  currentTab === "registeredEvents"
-                    ? "bg-red-900 text-white"
-                    : "text-gray-900"
-                }`}
+                className={`block px-4 rounded py-2 text-center hover:scale-105 ${currentTab === "registeredEvents"
+                    ? "bg-primary text-white"
+                    : "bg-gray-200 text-red-900"
+                  }`}
               >
                 Registered Events
               </Link>

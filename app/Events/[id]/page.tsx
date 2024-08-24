@@ -234,7 +234,7 @@ export default function EventPage({ params }: EventPageProps) {
                                 Dashboard
                             </Link>
                             <Link
-                                href={"/Dashboard"}
+                                href={"/Events"}
                                 className="m-2 px-4 py-3 bg-primary text-white rounded-lg hover:bg-red-900 transition duration-300 h-min"
                                 >
                                 Explore Events

@@ -94,8 +94,8 @@ const SearchAndFilter = ({
         onChange={(e) => setSelectedCategory(e.target.value)}
         className="w-full md:w-1/3 p-2 border border-gray-400 rounded-lg"
       >
-        {categories.map((category) => (
-          <option key={category.id} value={category.name}>
+        {categories.map((category, key) => (
+          <option key={key} value={category.name}>
             {category.name}
           </option>
         ))}

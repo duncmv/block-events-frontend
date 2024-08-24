@@ -48,8 +48,8 @@ const LoginForm: React.FC = () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        // router.back();
-        window.location.href = '/';
+        router.back(); // Takes you to the previous page after login
+        // window.location.href = '/';
       } else {
 		
         const backendErrors: ErrorsProps = {};
