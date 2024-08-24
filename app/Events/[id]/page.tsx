@@ -226,16 +226,16 @@ export default function EventPage({ params }: EventPageProps) {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="m-6 flex flex-row justify-center">
+                        <div className="m-2 md:m-6 grid justify-center">
                             <Link
                                 href={"/Dashboard"}
-                                className="m-2 px-4 py-3 bg-primary text-white rounded-lg hover:bg-red-900 transition duration-300 h-min"
+                                className="m-2 px-4 py-3 bg-primary text-white text-center rounded-lg hover:bg-red-900 transition duration-300 h-min"
                                 >
                                 Dashboard
                             </Link>
                             <Link
                                 href={"/Events"}
-                                className="m-2 px-4 py-3 bg-primary text-white rounded-lg hover:bg-red-900 transition duration-300 h-min"
+                                className="m-2 px-4 py-3 bg-primary text-white text-center rounded-lg hover:bg-red-900 transition duration-300 h-min"
                                 >
                                 Explore Events
                             </Link>

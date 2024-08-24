@@ -33,11 +33,11 @@ const servicesData = [
 
 const Services = () => {
   return (
-    <div className="flex justify-center m-8">
-      <div className="p-8 my-4">
+    <div className="flex justify-center">
+      <div className="p-2 md:p-8">
         <section className="mb-8">
-          <h1 className="text-3xl font-bold text-red-900 mb-4">Our Services</h1>
-          <p className="text-lg text-gray-700">
+          <h1 className="text-3xl text-center font-bold text-red-900 mb-4">Our Services</h1>
+          <p className="text-lg text-gray-700 border-base-content">
             Welcome to our services page! Here, you can explore the range of
             services we offer. Each service is detailed below, including
             descriptions and images to help you understand what we provide. If you

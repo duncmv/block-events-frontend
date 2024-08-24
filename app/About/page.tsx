@@ -33,8 +33,8 @@ const authors: Author[] = [
 const Authors: React.FC = () => {
   return (
     <div>
-      <div className="p-8">
-        <h1 className="text-3xl font-bold text-red-900 mb-6 text-center">
+      <div className="p-2 md:p-8">
+        <h1 className="text-3xl font-bold text-red-900 mt-2 mb-6 text-center">
           Meet the Team
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
