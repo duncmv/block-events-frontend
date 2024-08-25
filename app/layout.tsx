@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="autumn">
-      <body className={`${inter.className} flex flex-col`}>
+      <body className={`${inter.className} flex flex-col h-screen`}>
         <AuthProvider>
           <Header />
           <main className="flex-1">{children}</main>
