@@ -13,16 +13,14 @@ const Sidebar = ({ currentTab }: SidebarProps) => {
   const { currentUser, handleLogout }: any = useContext(AuthContext);
   const router = useRouter();
   const mediaUrl = "http://localhost:3300/media/";
-  let path;
-  if (!currentUser || currentUser?.profile?.avatar == 'profile.png') {
-    path = "/media/profile.webp";
-  } else {
-    path = mediaUrl + currentUser?.profile?.avatar;
-  }
   const profilePic = (
     <img
       className="h-full w-full object-cover rounded-full"
-      src={path}
+      src={
+        currentUser?.profile?.avatar
+          ? mediaUrl + currentUser?.profile?.avatar
+          : "/media/profile.webp"
+      }
       alt="Avatar"
     />
   );
