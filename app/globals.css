@@ -6,13 +6,45 @@
   --foreground-rgb: 0, 0, 0;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
   }
-}
+} */
+
 
 body {
   color: rgb(var(--foreground-rgb));
   padding: 1rem;
+  background-color: #ff5e5e0d;
+}
+
+@media (max-width: 1000px) {
+  .custom-sidebar {
+    display: none !important;
+  }
+  .custom-ellipsis {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1001px) {
+  .custom-sidebar {
+    display: block !important;
+  }
+  .custom-ellipsis {
+    display: none !important;
+  }
+}
+
+.btn-round-avatar {
+	width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-avatar {
+	border: 1px solid #dad7d7;
 }

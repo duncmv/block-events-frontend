@@ -2,24 +2,38 @@
 import React, { useState, useEffect } from "react";
 
 const categories = [
-  { id: 0, name: "All Categories" },
-  { id: 1, name: "Music" },
-  { id: 2, name: "Sports" },
-  { id: 3, name: "Food" },
-  { id: 4, name: "Arts" },
+  { name: "All Categories" },
+  { name: "Art" },
+  { name: "Business" },
+  { name: "Community" },
+  { name: "Culture" },
+  { name: "Education" },
+  { name: "Fashion" },
+  { name: "Food" },
+  { name: "Health" },
+  { name: "Lifestyle" },
+  { name: "Music" },
+  { name: "Sports" },
+  { name: "Tech" },
+  { name: "Travel" },
 ];
 
 interface Event {
-  id: number;
+  _id: number;
   title: string;
-  startDateTime: Date;
-  endDateTime?: Date;
+  description: string;
+  startDateTime: string;
+  endDateTime?: string;
   location: {
     address: string;
     city: string;
     state: string;
     zip_code?: string;
     googleMapsLink?: string;
+    media: {
+      pictures: string[];
+      videos: string[];
+    };
   };
   category: string;
 }
@@ -39,7 +53,7 @@ const SearchAndFilter = ({
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       handleSearch();
-    }, 1000); // Adjust the debounce delay as needed
+    }, 300); // Adjust the debounce delay as needed
 
     return () => clearTimeout(timeoutId);
   }, [searchTerm, selectedCategory]);
@@ -49,7 +63,7 @@ const SearchAndFilter = ({
 
     if (searchTerm) {
       filtered = filtered.filter((event) =>
-        event.title.toLowerCase().includes(searchTerm.toLowerCase())
+        event.title.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
     }
 
@@ -59,25 +73,29 @@ const SearchAndFilter = ({
       );
     }
 
+    if (searchTerm === "" && selectedCategory === "All Categories") {
+      filtered = events;
+    }
+
     setFilteredEvents(filtered);
   };
 
   return (
-    <div className="flex justify-between m-4 px-4">
+    <div className="flex flex-col md:flex-row justify-between items-center w-full m-4 px-4 space-y-4 md:space-y-0 md:space-x-4">
       <input
         type="search"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search events"
-        className="max-w-700 p-2 mr-4 border border-gray-400 rounded-lg"
+        className="w-full md:w-2/3 p-2 border border-gray-400 rounded-lg"
       />
       <select
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
-        className="max-w-md p-2 border border-gray-400 rounded-lg"
+        className="w-full md:w-1/3 p-2 border border-gray-400 rounded-lg"
       >
-        {categories.map((category) => (
-          <option key={category.id} value={category.name}>
+        {categories.map((category, key) => (
+          <option key={key} value={category.name}>
             {category.name}
           </option>
         ))}

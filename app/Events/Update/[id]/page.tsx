@@ -1,6 +1,8 @@
 "use client";
-import React, { useState, useRef } from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 interface EventFormData {
   title: string;
@@ -50,8 +52,9 @@ const categories = [
   { name: "Travel" },
 ];
 
-const CreateEventForm: React.FC = () => {
-  const [isCreated, setIsCreated] = useState(false);
+const UpdateEventForm: React.FC = () => {
+  const { id } = useParams(); // Fetch event ID from URL
+  const [isUpdated, setIsUpdated] = useState(false);
   const [formData, setFormData] = useState<EventFormData>({
     title: "",
     description: "",
@@ -68,10 +71,87 @@ const CreateEventForm: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<ErrorsProps | null>(null);
-  const [loading, setLoading] = useState<boolean>(false); // For spinner
+  const [loading, setLoading] = useState<boolean>(false); // For button spinner
+  const [formLoading, setformLoading] = useState<boolean>(true); // For form spinner
   const [previews, setPreviews] = useState<string[]>([]); // For image previews
   const fileInputRef = useRef<HTMLInputElement | null>(null); // Ref for file input
   const router = useRouter();
+
+  // Fetch event details by ID
+  useEffect(() => {
+    setformLoading(true);
+    const fetchEvent = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:3300/api/events/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setFormData({
+            title: data.title || "",
+            description: data.description || "",
+            location: data.location || "",
+            organizerName: data.organizer.name || "",
+            organizerEmail: data.organizer.email || "",
+            organizerAddress: data.organizer.address || "",
+            startDateTime: data.startDateTime || "",
+            endDateTime: data.endDateTime || "",
+            category: data.category || "",
+            status: data.status || "",
+            tags: data.tags.join(", ") || "",
+            media: null, // Media is handled separately
+          });
+          if (data.media) {
+            setPreviews([`http://localhost:3300/media/${data.media}`]); // Load image preview from server
+          }
+        } else {
+          throw new Error("Event not found");
+        }
+        setformLoading(false);
+      } catch (err) {
+        setErrors({
+          serverError: "An error occurred while fetching event data.",
+        });
+      } finally {
+        setformLoading(false);
+      }
+    };
+    fetchEvent();
+  }, [id]);
+
+  if (formLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <span className="loading loading-spinner text-primary loading-lg"></span>
+      </div>
+    );
+  }
+
+  function formatDateTimeLocal(dateString: string) {
+    if (!dateString) return "";
+
+    let date;
+    try {
+      date = new Date(dateString);
+
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        console.error("Invalid date:", dateString);
+        return "";
+      }
+
+      // Format the date
+      return date.toISOString().slice(0, 16);
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "";
+    }
+  }
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -83,6 +163,10 @@ const CreateEventForm: React.FC = () => {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleCancel = () => {
+    window.location.href = "/Dashboard";
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,8 +204,8 @@ const CreateEventForm: React.FC = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:3300/api/events`, {
-        method: "POST",
+      const response = await fetch(`http://localhost:3300/api/events/${id}`, {
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -131,17 +215,16 @@ const CreateEventForm: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-		console.log('Event created successfully');
         setTimeout(() => {
           setLoading(false);
-          setIsCreated(true);
+          setIsUpdated(true);
           setTimeout(() => {
-            setIsCreated(false);
+            setIsUpdated(false);
             router.replace("/Dashboard");
             // window.location.href = '/Dashboard';
           }, 1500)
         }, 1500)
-        // window.location.href = '/Dashboard';
+        // window.location.href = "/Dashboard";
       } else {
         const backendErrors: ErrorsProps = {};
         data.errors.forEach((error: { field: string; message: string }) => {
@@ -155,8 +238,6 @@ const CreateEventForm: React.FC = () => {
         ...prevErrors,
         serverError: "An error occurred. Please try again.",
       }));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -166,14 +247,10 @@ const CreateEventForm: React.FC = () => {
     }
   };
 
-  const handleCancel = () => {
-    window.location.href = "/Events";
-  };
-
   return (
     <div className="container my-3 mx-auto p-6 md:p-10 bg-white rounded-lg shadow-lg">
       <h1 className="text-4xl font-bold text-[#8c0327] mb-8 text-center">
-        Create Event
+        Update Event
       </h1>
       <form
         onSubmit={handleSubmit}
@@ -194,7 +271,7 @@ const CreateEventForm: React.FC = () => {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Enter the event title"
+            placeholder="Event Title"
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           />
           {errors?.title && (
@@ -217,10 +294,13 @@ const CreateEventForm: React.FC = () => {
             onChange={handleChange}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           >
-            {categories.map((category, key) => (
-              <option key={key} value={category.name}>{category.name}</option>
+            {categories.map((category,key) => (
+              <option key={key} value={category.name}>
+                {category.name}
+              </option>
             ))}
-          </select>
+            <option value="">Select a category</option>
+            </select>
           {errors?.category && (
             <p className="text-red-500 text-sm mt-1">{errors.category}</p>
           )}
@@ -234,15 +314,15 @@ const CreateEventForm: React.FC = () => {
               htmlFor="description"
               className="block text-lg font-medium text-gray-700"
             >
-              Event Description
+              Description
             </label>
             <textarea
               id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
-              rows={4}
-              placeholder="Provide a detailed description of the event"
+              rows={5}
+              placeholder="Event Description"
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
             {errors?.description && (
@@ -252,22 +332,25 @@ const CreateEventForm: React.FC = () => {
 
           {/* Image Upload */}
           <div>
-            <label className="block text-lg font-medium text-gray-700">
-              Upload Event Image
+            <label className="block text-lg font-medium text-gray-700 mb-2">
+              Event Media
             </label>
-            <div className="mt-1 h-48 border-2 border-dashed border-gray-300 rounded-md cursor-pointer flex flex-col items-center justify-center bg-[#f6f6f6] hover:bg-gray-100 transition-colors">
+            <label
+              htmlFor="image-upload"
+              className=" w-full h-48 border-2 border-dashed border-gray-300 rounded-md cursor-pointer flex flex-col items-center justify-center bg-[#f6f6f6] hover:bg-gray-50"
+            >
               <div className="text-center">
                 <button
                   type="button"
                   onClick={openFileDialog}
-                  className="bg-[#8c0327] hover:bg-[#6b0220] text-white rounded-full py-2 px-4 hover:scale-105"
+                  className="bg-[#8c0327] hover:bg-[#6b0220] text-white rounded-full py-2 px-6 mb-2"
                 >
                   Select from computer
                 </button>
-                <p className="text-gray-500 mt-2">or drag photo here</p>
+                <p className="text-gray-500">or drag photo here</p>
                 <p className="text-gray-500 text-sm mt-1">PNG, JPG, SVG</p>
               </div>
-            </div>
+            </label>
             <input
               id="image-upload"
               name="media"
@@ -280,8 +363,6 @@ const CreateEventForm: React.FC = () => {
             {errors?.media && (
               <p className="text-red-500 text-sm mt-1">{errors.media}</p>
             )}
-
-            {/* Preview Images */}
             {previews.length > 0 && (
               <div className="mt-4 grid grid-cols-2 gap-4">
                 {previews.map((preview, index) => (
@@ -289,7 +370,7 @@ const CreateEventForm: React.FC = () => {
                     key={index}
                     src={preview}
                     alt={`Selected media ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-md object-cover"
+                    className="w-full h-32 object-cover rounded-md"
                   />
                 ))}
               </div>
@@ -311,7 +392,7 @@ const CreateEventForm: React.FC = () => {
             name="location"
             value={formData.location}
             onChange={handleChange}
-            placeholder="Enter the location"
+            placeholder="Event Location"
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
           />
           {errors?.location && (
@@ -319,9 +400,8 @@ const CreateEventForm: React.FC = () => {
           )}
         </div>
 
-        {/* Organizer Information */}
+        {/* Organizer Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Organizer Name */}
           <div>
             <label
               htmlFor="organizerName"
@@ -344,8 +424,6 @@ const CreateEventForm: React.FC = () => {
               </p>
             )}
           </div>
-
-          {/* Organizer Email */}
           <div>
             <label
               htmlFor="organizerEmail"
@@ -370,7 +448,6 @@ const CreateEventForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Organizer Address */}
         <div>
           <label
             htmlFor="organizerAddress"
@@ -396,7 +473,6 @@ const CreateEventForm: React.FC = () => {
 
         {/* Start and End DateTime */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Start DateTime */}
           <div>
             <label
               htmlFor="startDateTime"
@@ -408,7 +484,10 @@ const CreateEventForm: React.FC = () => {
               type="datetime-local"
               id="startDateTime"
               name="startDateTime"
-              value={formData.startDateTime}
+              value={
+                formatDateTimeLocal(formData.startDateTime) ||
+                formData.startDateTime
+              }
               onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
@@ -419,7 +498,6 @@ const CreateEventForm: React.FC = () => {
             )}
           </div>
 
-          {/* End DateTime */}
           <div>
             <label
               htmlFor="endDateTime"
@@ -431,7 +509,10 @@ const CreateEventForm: React.FC = () => {
               type="datetime-local"
               id="endDateTime"
               name="endDateTime"
-              value={formData.endDateTime}
+              value={
+                formatDateTimeLocal(formData.endDateTime) ||
+                formData.endDateTime
+              }
               onChange={handleChange}
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
             />
@@ -441,72 +522,18 @@ const CreateEventForm: React.FC = () => {
           </div>
         </div>
 
-		<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-			{/* Status */}
-			<div>
-				<label
-					htmlFor="status"
-					className="block text-lg font-medium text-gray-700"
-				>
-					Status
-				</label>
-				<select
-					id="status"
-					name="status"
-					value={formData.status}
-					onChange={handleChange}
-					className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
-					style={{ backgroundColor: '#f6f6f6' }}
-				>
-					<option value="">Select Status</option>
-					<option value="active">Active</option>
-					<option value="inactive">Inactive</option>
-				</select>
-				{errors?.status && (
-					<p className="text-red-500 text-sm mt-1">
-					{errors.status}
-					</p>
-				)}
-			</div>
-
-			{/* tags */}
-			<div>
-				<label
-					htmlFor="tags"
-					className="block text-lg font-medium text-gray-700"
-				>
-					Tags
-				</label>
-				<input
-					type="text"
-					id="tags"
-					name="tags"
-					value={formData.tags}
-					onChange={handleChange}
-					placeholder="Tags"
-					className="block w-full rounded-md border-gray-300 shadow-sm focus:border-[#8c0327] focus:ring-[#8c0327] focus:ring-opacity-50 p-4 bg-[#f6f6f6] mt-1"
-				/>
-				{errors?.tags && (
-					<p className="text-red-500 text-sm mt-1">
-					{errors.tags}
-					</p>
-				)}
-			</div>
-
-		</div>
-
-        {/* Submit Button */}
+        {/* Buttons */}
         <div className="flex justify-end space-x-4 mt-8">
           <button
             type="button"
             onClick={handleCancel}
-            className="text-gray-700 hover:bg-gray-200 rounded-full px-6 py-3 shadow hover:scale-105"
+            className="text-gray-700 hover:bg-gray-200 rounded-full px-6 py-3 shadow"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="flex items-center justify-center h-12 bg-[#8c0327] text-white text-base font-medium hover:bg-[#6b0220] rounded-full px-6 shadow hover:scale-105"
+            className="flex items-center justify-center h-12 bg-[#8c0327] text-white text-base font-medium hover:bg-[#6b0220] rounded-full px-6 shadow"
             disabled={loading}
           >
             {loading ? (
@@ -531,7 +558,7 @@ const CreateEventForm: React.FC = () => {
                 ></path>
               </svg>
             ) : (
-              "Create Event"
+              "Update Event"
             )}
           </button>
           {errors?.serverError && (
@@ -539,7 +566,7 @@ const CreateEventForm: React.FC = () => {
           )}
         </div>
       </form>
-      {isCreated && (
+      {isUpdated && (
         <div
           role="alert"
           className="fixed left-1/2 top-1/2  transform -translate-x-1/2 -translate-y-1/2 z-10 alert alert-success w-80"
@@ -557,11 +584,11 @@ const CreateEventForm: React.FC = () => {
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>Created event successfully.</span>
+          <span>Updated event successfully.</span>
         </div>
       )}
     </div>
   );
 };
 
-export default CreateEventForm;
+export default UpdateEventForm;

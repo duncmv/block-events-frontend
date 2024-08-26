@@ -53,7 +53,8 @@ Block Event is a comprehensive event management system designed to allow users t
 
 ## 🛠️ Setup
 
-1. **Frontend Setup**: 
+
+1. **Frontend Setup**:
 
     Clone repository
 
@@ -80,7 +81,6 @@ Start the frontend server:
 ```
 
 You can access the backend repository [here](https://github.com/NebiyouBelaineh/block-events-backend).
-
 
 # 🚀 Usage
 
