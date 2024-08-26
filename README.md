@@ -53,34 +53,8 @@ Block Event is a comprehensive event management system designed to allow users t
 
 ## 🛠️ Setup
 
-1. **Backend Setup**:
 
-    Clone repository
-
-```bash
-    git clone https://github.com/NebiyouBelaineh/block-events-backend
-    cd block-event-backend
-```
-
-Navigate to the backend directory:
-
-```bash
-    cd  block-events-backend
-```
-
-Install dependencies:
-
-```bash
-    npm install
-```
-
-Start the backend server:
-    
-```bash
-    npm start
-```
-
-2. **Frontend Setup**: 
+1. **Frontend Setup**:
 
     Clone repository
 
@@ -105,6 +79,8 @@ Start the frontend server:
 ```bash
     npm run dev
 ```
+
+You can access the backend repository [here](https://github.com/NebiyouBelaineh/block-events-backend).
 
 # 🚀 Usage
 
