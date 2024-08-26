@@ -10,6 +10,12 @@ const EllipsisMenu = ({ currentTab }: any) => {
   const mediaUrl = "http://localhost:3300/media/";
   const router = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
+  let path;
+  if (!currentUser || currentUser?.profile?.avatar == 'profile.png') {
+    path = "/media/profile.webp";
+  } else {
+    path = mediaUrl + currentUser?.profile?.avatar;
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,11 +54,7 @@ const EllipsisMenu = ({ currentTab }: any) => {
             <div className="avatar w-16 rounded-full ring ring-offset-2 ring-primary ring-offset-base-100">
               <img
                 className="h-full w-full object-cover rounded-full"
-                src={
-                  currentUser?.profile?.avatar
-                    ? mediaUrl + currentUser?.profile?.avatar
-                    : "/media/profile.webp"
-                }
+                src={path}
                 alt="Avatar"
               />
             </div>
