@@ -72,7 +72,41 @@ const EventModal = ({ event, register, setRegister }: EventModalProps) => {
               <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold">
                 {event.title}
               </h1>
-              <p className="text-lg text-gray-700 mb-4">{event.description}</p>
+              <div className="text-lg text-gray-700 mb-4">
+                {event.description.length > 500 ? (
+                  <>
+                    {event.description.slice(0, 500)}
+                    <span className="hidden" id={`${event._id}-hidden`}>
+                      {event.description.slice(500)}
+                    </span>
+                    <button
+                      className="text-primary underline"
+                      onClick={() => {
+                        const hiddenSpan = document.getElementById(
+                          `${event._id}-hidden`
+                        );
+                        if (hiddenSpan) {
+                          hiddenSpan.classList.toggle("hidden");
+                          const readMoreButton = document.getElementById(
+                            `${event._id}-readmore`
+                          );
+                          if (readMoreButton) {
+                            readMoreButton.innerText =
+                              hiddenSpan.classList.contains("hidden")
+                                ? "...Read more"
+                                : "Show less";
+                          }
+                        }
+                      }}
+                      id={`${event._id}-readmore`}
+                    >
+                      Read more...
+                    </button>
+                  </>
+                ) : (
+                  event.description
+                )}
+              </div>
               <button
                 onClick={register ? undefined : handleRegister}
                 className={`btn ${register
